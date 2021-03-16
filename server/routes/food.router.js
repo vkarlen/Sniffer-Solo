@@ -38,7 +38,7 @@ router.get('/brands', (req, res) => {
 });
 
 router.get('/allergy', (req, res) => {
-  const sqlQuery = `SELECT * FROM "allergy_groups"
+  const sqlQuery = `SELECT * FROM "allergies"
   ORDER BY ("id" = 0) DESC, ("id" = 1) DESC, description;`;
 
   pool
@@ -53,8 +53,8 @@ router.get('/allergy', (req, res) => {
 });
 
 router.get('/ingredients', (req, res) => {
-  const sqlQuery = `SELECT "ingredients".id, "ingredients".description as Ingredient, "ingredients".allergy_id as all_id, "allergy_groups".description as Group FROM "ingredients"
-  JOIN "allergy_groups" ON "ingredients".allergy_id = "allergy_groups".id
+  const sqlQuery = `SELECT "ingredients".id, "ingredients".description as Ingredient, "ingredients".allergy_id as all_id, "allergies".description as Group FROM "ingredients"
+  JOIN "allergies" ON "ingredients".allergy_id = "allergies".id
   ORDER BY ("allergy_id" = 0) DESC, "ingredients".description;`;
 
   pool
@@ -154,7 +154,7 @@ router.post('/add', (req, res) => {
 
 router.post('/allergy/add', (req, res) => {
   console.log('in router', req.body);
-  const sqlQuery = `INSERT INTO "allergy_groups" ("description")
+  const sqlQuery = `INSERT INTO "allergies" ("description")
   VALUES ($1)`;
 
   pool

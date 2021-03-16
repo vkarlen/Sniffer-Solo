@@ -29,7 +29,6 @@ function FoodTable() {
 
         <tbody>
           {foodList.map((food) => {
-            console.log(food);
             return <FoodRow food={food} key={food.id} />;
           })}
         </tbody>

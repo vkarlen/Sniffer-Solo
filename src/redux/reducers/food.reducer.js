@@ -19,9 +19,9 @@ const ingredientReducer = (state = [], action) => {
   }
 };
 
-const allergyGroupReducer = (state = [], action) => {
+const allergyReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_GROUPS':
+    case 'SET_ALLERGY_LIST':
       return action.payload;
     default:
       return state;
@@ -40,6 +40,6 @@ const foodReducer = (state = [], action) => {
 export default combineReducers({
   brandReducer,
   ingredientReducer,
-  allergyGroupReducer,
+  allergyReducer,
   foodReducer,
 });

@@ -12,18 +12,17 @@ function* addFood(action) {
   }
 } // end addFood
 
-function* addAllergyGroup(action) {
+function* addAllergy(action) {
   try {
-    console.log('in saga');
     yield axios.post('/api/food/allergy/add', action.payload);
 
     yield put({
-      type: 'FETCH_GROUPS',
+      type: 'FETCH_ALLERGIES',
     });
   } catch (error) {
-    console.log('Error in addAllergyGroup', error);
+    console.log('Error in addAllergy', error);
   }
-} // end addAllergyGroup
+} // end addAllergy
 
 function* fetchBrands() {
   try {
@@ -38,18 +37,18 @@ function* fetchBrands() {
   }
 } // end fetchBrands
 
-function* fetchGroups() {
+function* fetchAllergies() {
   try {
-    const groups = yield axios.get('/api/food/allergy');
+    const allergy = yield axios.get('/api/food/allergy');
 
     yield put({
-      type: 'SET_GROUPS',
-      payload: groups.data,
+      type: 'SET_ALLERGY_LIST',
+      payload: allergy.data,
     });
   } catch (error) {
-    console.log('Error in fetchGroups');
+    console.log('Error in fetchAllergies');
   }
-} // end fetchGroups
+} // end fetchAllergies
 
 function* fetchIngredients() {
   try {
@@ -77,7 +76,7 @@ function* fetchFood() {
   }
 } // end fetchFood
 
-function* updateGrouping(action) {
+function* updateAllergy(action) {
   console.log('updateGrouping', action.payload);
 
   try {
@@ -93,12 +92,12 @@ function* updateGrouping(action) {
 
 function* foodSaga() {
   yield takeEvery('ADD_FOOD', addFood);
-  yield takeEvery('ADD_GROUP', addAllergyGroup);
+  yield takeEvery('ADD_GROUP', addAllergy);
   yield takeEvery('FETCH_BRANDS', fetchBrands);
-  yield takeEvery('FETCH_GROUPS', fetchGroups);
+  yield takeEvery('FETCH_ALLERGIES', fetchAllergies);
   yield takeEvery('FETCH_INGREDIENTS', fetchIngredients);
   yield takeEvery('FETCH_FOOD', fetchFood);
-  yield takeEvery('UPDATE_GROUPING', updateGrouping);
+  yield takeEvery('UPDATE_ALLERGY', updateAllergy);
 }
 
 export default foodSaga;
