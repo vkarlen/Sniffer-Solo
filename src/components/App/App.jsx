@@ -13,12 +13,17 @@ import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+
+import MyPetsPage from '../MyPetsPage/MyPetsPage';
+import SearchPage from '../SearchPage/SearchPage';
+import ComparisonTool from '../ComparisonTool/ComparisonTool';
+
+import AdminPortal from '../Admin/AdminPortal/AdminPortal';
+import AdminFoods from '../Admin/AdminFoods/AdminFoods';
+import AdminAllergies from '../Admin/AdminAllergies/AdminAllergies';
 
 import './App.css';
 
@@ -37,69 +42,42 @@ function App() {
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
 
-          {/* Visiting localhost:3000/about will show the about page. */}
-          <Route
-            // shows AboutPage at all times (logged in or not)
-            exact
-            path="/about"
-          >
-            <AboutPage />
+          <Route exact path="/home">
+            <LandingPage />
           </Route>
 
-          {/* For protected routes, the view could show one of several things on the same route.
-            Visiting localhost:3000/user will show the UserPage if the user is logged in.
-            If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
-            Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/user"
-          >
-            <UserPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <InfoPage />
-          </ProtectedRoute>
-
-          {/* When a value is supplied for the authRedirect prop the user will
-            be redirected to the path supplied when logged in, otherwise they will
-            be taken to the component and path supplied. */}
-          <ProtectedRoute
-            // with authRedirect:
-            // - if logged in, redirects to "/user"
-            // - else shows LoginPage at /login
-            exact
-            path="/login"
-            authRedirect="/user"
-          >
+          <ProtectedRoute exact path="/login" authRedirect="/home">
             <LoginPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // with authRedirect:
-            // - if logged in, redirects to "/user"
-            // - else shows RegisterPage at "/registration"
-            exact
-            path="/registration"
-            authRedirect="/user"
-          >
+          <ProtectedRoute exact path="/registration" authRedirect="/home">
             <RegisterPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // with authRedirect:
-            // - if logged in, redirects to "/user"
-            // - else shows LandingPage at "/home"
-            exact
-            path="/home"
-            authRedirect="/user"
-          >
-            <LandingPage />
+          {/*** PAGES ***/}
+          <ProtectedRoute exact path="/pets">
+            <MyPetsPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/search">
+            <SearchPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/compare">
+            <ComparisonTool />
+          </ProtectedRoute>
+
+          {/*** ADMIN ROUTES ***/}
+          <ProtectedRoute exact path="/admin">
+            <AdminPortal />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/food">
+            <AdminFoods />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/allergy">
+            <AdminAllergies />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}

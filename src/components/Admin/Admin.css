@@ -1,0 +1,29 @@
+.adminForm {
+  width: 300px;
+  margin: 15px auto;
+  border: 1px solid grey;
+  padding: 15px;
+}
+
+input,
+select {
+  margin: 3px;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 3px;
+}
+
+table {
+  margin: auto;
+  width: 50%;
+  max-width: 500px;
+}
+
+h3 {
+  text-align: center;
+}

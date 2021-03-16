@@ -1,44 +1,53 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import LogOutButton from '../LogOutButton/LogOutButton';
+
 import './Nav.css';
-import {useSelector} from 'react-redux';
 
 function Nav() {
   const user = useSelector((store) => store.user);
 
-  let loginLinkData = {
-    path: '/login',
-    text: 'Login / Register',
-  };
-
-  if (user.id != null) {
-    loginLinkData.path = '/user';
-    loginLinkData.text = 'Home';
-  }
-
   return (
     <div className="nav">
       <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
+        <h2 className="nav-title">Sniffer</h2>
       </Link>
       <div>
-        <Link className="navLink" to={loginLinkData.path}>
-          {loginLinkData.text}
-        </Link>
+        {!user.id && (
+          <Link className="navLink" to="/login">
+            Login / Register
+          </Link>
+        )}
 
         {user.id && (
           <>
-            <Link className="navLink" to="/info">
-              Info Page
+            <Link className="navLink" to="/pets">
+              My Pets
             </Link>
-            <LogOutButton className="navLink" />
+            <Link className="navLink" to="/search">
+              Search
+            </Link>
+            <Link className="navLink" to="/compare">
+              Compare
+            </Link>
           </>
         )}
 
-        <Link className="navLink" to="/about">
-          About
-        </Link>
+        {user.authLevel === 'ADMIN' && (
+          <>
+            <Link className="navLink" to="/admin">
+              Admin Portal
+            </Link>
+          </>
+        )}
+
+        {user.id && (
+          <>
+            <LogOutButton className="navLink" />
+          </>
+        )}
       </div>
     </div>
   );
