@@ -13,7 +13,7 @@ function AllergyTable() {
   const ingredients = useSelector((store) => store.food.ingredientReducer);
 
   const handleChange = (newGroup, ingredient) => {
-    console.log('in Change', newGroup, ingredient);
+    //console.log('in Change', newGroup, ingredient);
 
     dispatch({
       type: 'UPDATE_ALLERGY',
@@ -30,9 +30,10 @@ function AllergyTable() {
         <thead>
           <tr>
             <th>Ingredient</th>
-            <th>Allergy Group</th>
+            <th>Allergy Class</th>
           </tr>
         </thead>
+
         <tbody>
           {ingredients.map((item) => {
             return (

@@ -16,8 +16,6 @@ function FoodTable() {
 
   return (
     <div>
-      <h3>All Foods in Database</h3>
-
       <table id="foodTable">
         <thead>
           <tr>

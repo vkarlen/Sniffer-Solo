@@ -25,11 +25,11 @@ function AddAllergy() {
 
   return (
     <div>
-      <h2>Add New Allergy Group</h2>
+      <h3>Add New Allergy Classification</h3>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="adminForm">
         <label>
-          Group Name:
+          Class Name:
           <input
             type="text"
             value={newGroup}
