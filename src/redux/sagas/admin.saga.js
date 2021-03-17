@@ -1,12 +1,16 @@
-import { put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* addFood(action) {
   //console.log('addFood', action.payload);
 
   try {
-    yield axios.post('/api/food/add', action.payload);
+    yield axios.post('/api/admin/food/add', action.payload);
     alert('Success!');
+
+    yield put({
+      type: 'FETCH_FOOD',
+    });
   } catch (error) {
     console.log('Error in addFood', error);
   }
@@ -14,7 +18,7 @@ function* addFood(action) {
 
 function* addAllergy(action) {
   try {
-    yield axios.post('/api/food/allergy/add', action.payload);
+    yield axios.post('/api/admin/allergy/add', action.payload);
 
     yield put({
       type: 'FETCH_ALLERGIES',
@@ -26,7 +30,7 @@ function* addAllergy(action) {
 
 function* fetchBrands() {
   try {
-    const brands = yield axios.get('/api/food/brands');
+    const brands = yield axios.get('/api/admin/brands');
 
     yield put({
       type: 'SET_BRANDS',
@@ -39,7 +43,7 @@ function* fetchBrands() {
 
 function* fetchAllergies() {
   try {
-    const allergy = yield axios.get('/api/food/allergy');
+    const allergy = yield axios.get('/api/admin/allergy');
 
     yield put({
       type: 'SET_ALLERGY_LIST',
@@ -52,7 +56,7 @@ function* fetchAllergies() {
 
 function* fetchIngredients() {
   try {
-    const ingredients = yield axios.get('/api/food/ingredients');
+    const ingredients = yield axios.get('/api/admin/ingredients');
 
     yield put({
       type: 'SET_INGREDIENTS',
@@ -65,7 +69,7 @@ function* fetchIngredients() {
 
 function* fetchFood() {
   try {
-    const food = yield axios.get('/api/food/');
+    const food = yield axios.get('/api/admin/food/');
 
     yield put({
       type: 'SET_FOOD_LIST',
@@ -80,7 +84,7 @@ function* updateAllergy(action) {
   console.log('updateGrouping', action.payload);
 
   try {
-    yield axios.put('/api/food/update', action.payload);
+    yield axios.put('/api/admin/ingredient/update', action.payload);
 
     yield put({
       type: 'FETCH_INGREDIENTS',
@@ -90,7 +94,7 @@ function* updateAllergy(action) {
   }
 } // end changeGrouping
 
-function* foodSaga() {
+function* adminSaga() {
   yield takeEvery('ADD_FOOD', addFood);
   yield takeEvery('ADD_GROUP', addAllergy);
   yield takeEvery('FETCH_BRANDS', fetchBrands);
@@ -100,4 +104,4 @@ function* foodSaga() {
   yield takeEvery('UPDATE_ALLERGY', updateAllergy);
 }
 
-export default foodSaga;
+export default adminSaga;

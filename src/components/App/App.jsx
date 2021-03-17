@@ -6,7 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -29,6 +29,8 @@ import './App.css';
 
 function App() {
   const dispatch = useDispatch();
+
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -68,21 +70,26 @@ function App() {
           </ProtectedRoute>
 
           {/*** ADMIN ROUTES ***/}
-          <ProtectedRoute exact path="/admin">
-            <AdminPortal />
-          </ProtectedRoute>
+          {user.authLevel === 'ADMIN' && (
+            <>
+              <ProtectedRoute exact path="/admin">
+                <AdminPortal />
+              </ProtectedRoute>
 
-          <ProtectedRoute exact path="/admin/food">
-            <AdminFoods />
-          </ProtectedRoute>
+              <ProtectedRoute exact path="/admin/food">
+                <AdminFoods />
+              </ProtectedRoute>
 
-          <ProtectedRoute exact path="/admin/allergy">
-            <AdminAllergies />
-          </ProtectedRoute>
+              <ProtectedRoute exact path="/admin/allergy">
+                <AdminAllergies />
+              </ProtectedRoute>
+            </>
+          )}
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
             <h1>404</h1>
+            <p>Page not found.</p>
           </Route>
         </Switch>
         <Footer />

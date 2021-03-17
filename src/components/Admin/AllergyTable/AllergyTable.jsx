@@ -9,8 +9,8 @@ function AllergyTable() {
     dispatch({ type: 'FETCH_INGREDIENTS' });
   }, []);
 
-  const allergies = useSelector((store) => store.food.allergyReducer);
-  const ingredients = useSelector((store) => store.food.ingredientReducer);
+  const allergies = useSelector((store) => store.admin.allergyReducer);
+  const ingredients = useSelector((store) => store.admin.ingredientReducer);
 
   const handleChange = (newGroup, ingredient) => {
     //console.log('in Change', newGroup, ingredient);

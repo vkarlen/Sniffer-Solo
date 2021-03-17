@@ -12,7 +12,7 @@ function FoodTable() {
     dispatch({ type: 'FETCH_FOOD' });
   }, []);
 
-  const foodList = useSelector((store) => store.food.foodReducer);
+  const foodList = useSelector((store) => store.admin.foodReducer);
 
   return (
     <div>

@@ -1,9 +1,19 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
-router.get('/', (req, res) => {
+router.get('/food', (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   const sqlQuery = `SELECT "foods".id, "brands".name AS brand, "foods".description, ARRAY_AGG("ingredients".description) AS ingredients
   FROM "foods"
   JOIN "brands" ON "brands".id = "foods".brand_id
@@ -24,6 +34,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/brands', (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   const sqlQuery = `SELECT * FROM "brands"`;
 
   pool
@@ -37,7 +54,15 @@ router.get('/brands', (req, res) => {
     });
 });
 
+// Get a list of the allergies
 router.get('/allergy', (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   const sqlQuery = `SELECT * FROM "allergies"
   ORDER BY ("id" = 0) DESC, ("id" = 1) DESC, description;`;
 
@@ -52,7 +77,14 @@ router.get('/allergy', (req, res) => {
     });
 });
 
-router.get('/ingredients', (req, res) => {
+router.get('/ingredients', rejectUnauthenticated, (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   const sqlQuery = `SELECT "ingredients".id, "ingredients".description as Ingredient, "ingredients".allergy_id as all_id, "allergies".description as Group FROM "ingredients"
   JOIN "allergies" ON "ingredients".allergy_id = "allergies".id
   ORDER BY ("allergy_id" = 0) DESC, "ingredients".description;`;
@@ -69,7 +101,14 @@ router.get('/ingredients', (req, res) => {
 });
 
 /*** POST ROUTES ***/
-router.post('/add', (req, res) => {
+router.post('/food/add', rejectUnauthenticated, (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   // Save ingredients array as variable
   const ingredients = req.body.ingredients;
 
@@ -135,7 +174,6 @@ router.post('/add', (req, res) => {
           pool
             .query(sqlJoin)
             .then((dbRes) => {
-              console.log(`Insert successful!`);
               res.sendStatus(200);
             })
             .catch((err) => {
@@ -152,8 +190,14 @@ router.post('/add', (req, res) => {
     });
 });
 
-router.post('/allergy/add', (req, res) => {
-  console.log('in router', req.body);
+router.post('/allergy/add', rejectUnauthenticated, (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   const sqlQuery = `INSERT INTO "allergies" ("description")
   VALUES ($1)`;
 
@@ -169,8 +213,14 @@ router.post('/allergy/add', (req, res) => {
 });
 
 /*** PUT ROUTES ***/
-router.put('/update', (req, res) => {
-  console.log('in PUT', req.body);
+router.put('/ingredient/update', rejectUnauthenticated, (req, res) => {
+  // Boot any requests that do not come from the Admin
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    return;
+  }
+
   const sqlQuery = `UPDATE "ingredients"
   SET "allergy_id" = $1
   WHERE "id" = $2;`;
