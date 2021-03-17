@@ -14,12 +14,26 @@ router.get('/food', (req, res) => {
     return;
   }
 
-  const sqlQuery = `SELECT "foods".id, "brands".name AS brand, "foods".description, ARRAY_AGG("ingredients".description) AS ingredients
+  const sqlQuery = `SELECT 
+    "foods".id, 
+    "brands".name 
+      AS brand, 
+    "foods".description, 
+    "foods".image, 
+    ARRAY_AGG("ingredients".description 
+    ORDER BY "foods_ingredients".id) 
+      AS ingredients
   FROM "foods"
-  JOIN "brands" ON "brands".id = "foods".brand_id
-  JOIN "foods_ingredients" ON "foods".id = "foods_ingredients".food_id
-  JOIN "ingredients" ON "ingredients".id = "foods_ingredients".ingredients_id
-  GROUP BY "foods".id, "brands".name, "foods".description
+  JOIN "brands" 
+    ON "brands".id = "foods".brand_id
+  JOIN "foods_ingredients" 
+    ON "foods".id = "foods_ingredients".food_id
+  JOIN "ingredients" 
+    ON "ingredients".id = "foods_ingredients".ingredients_id
+  GROUP BY 
+    "foods".id, "brands".name, 
+    "foods".description, 
+    "foods".image
   ORDER BY brand, "foods".description;`;
 
   pool

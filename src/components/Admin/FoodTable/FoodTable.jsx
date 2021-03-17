@@ -19,6 +19,7 @@ function FoodTable() {
       <table id="foodTable">
         <thead>
           <tr>
+            <th id="imgHeader">Image</th>
             <th>Brand</th>
             <th>Name</th>
             <th>Ingredients</th>
