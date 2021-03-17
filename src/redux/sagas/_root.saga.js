@@ -2,7 +2,8 @@ import { all } from 'redux-saga/effects';
 import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
-import foodSaga from './admin.saga';
+import adminSaga from './admin.saga';
+import petSaga from './pet.saga';
 
 // some sagas trigger other sagas, as an example
 // the registration triggers a login
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
-    foodSaga(),
+    adminSaga(),
+    petSaga(),
   ]);
 }

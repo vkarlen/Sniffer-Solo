@@ -20,6 +20,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import MyPetsPage from '../MyPetsPage/MyPetsPage';
 import SearchPage from '../SearchPage/SearchPage';
 import ComparisonTool from '../ComparisonTool/ComparisonTool';
+import PetDetailPage from '../PetDetailPage/PetDetailPage';
 
 import AdminPortal from '../Admin/AdminPortal/AdminPortal';
 import AdminFoods from '../Admin/AdminFoods/AdminFoods';
@@ -30,7 +31,7 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
 
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user.userInfo);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -68,6 +69,10 @@ function App() {
           <ProtectedRoute exact path="/compare">
             <ComparisonTool />
           </ProtectedRoute>
+
+          <Route path="/pets/:id" exact>
+            <PetDetailPage />
+          </Route>
 
           {/*** ADMIN ROUTES ***/}
           {user.authLevel === 'ADMIN' && (

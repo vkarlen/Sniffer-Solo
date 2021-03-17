@@ -7,7 +7,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 
 function Nav() {
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user.userInfo);
 
   return (
     <div className="nav">
