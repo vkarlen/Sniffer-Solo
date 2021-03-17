@@ -8,15 +8,31 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 
+/*** GET ROUTES ***/
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
   res.send(req.user);
 });
 
-// Handles POST request with new user data
-// The only thing different from this and every other post we've seen
-// is that the password gets encrypted before being inserted
+// Gets list of user's pets
+router.get('/pets', rejectUnauthenticated, (req, res) => {
+  console.log('user', req.user.id);
+  const sqlQuery = `SELECT * FROM "pets"
+  WHERE "owner_id" = ${req.user.id};`;
+
+  pool
+    .query(sqlQuery)
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in /api/user/pets', err);
+    });
+});
+
+/*** POST ROUTES ***/
+// Handles POST request with new user data and encrypts password
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
@@ -33,9 +49,6 @@ router.post('/register', (req, res, next) => {
 });
 
 // Handles login form authenticate/login POST
-// userStrategy.authenticate('local') is middleware that we run on this route
-// this middleware will run our POST if successful
-// this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   res.sendStatus(200);
 });
