@@ -15,10 +15,11 @@ router.get('/:id', (req, res) => {
 	"pets".breed,
 	"pets".age,
 	ARRAY_AGG("allergies".description)
+    AS allergies
 FROM "pets_allergies"
-JOIN "pets" 
+FULL OUTER JOIN "pets" 
   ON "pets".id = "pets_allergies".pet_id
-JOIN "allergies" 
+FULL OUTER JOIN "allergies" 
   ON "allergies".id = "pets_allergies".allergy_id
 WHERE "pets".id = $1
 GROUP BY 

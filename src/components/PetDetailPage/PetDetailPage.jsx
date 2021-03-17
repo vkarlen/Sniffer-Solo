@@ -7,6 +7,8 @@ function PetDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  const petInfo = useSelector((store) => store.pet.petDetail);
+
   useEffect(() => {
     dispatch({
       type: 'FETCH_EXACT_PET',
@@ -16,8 +18,25 @@ function PetDetailPage() {
 
   return (
     <div>
-      <h2>Dog Name</h2>
-      <p>is a good pup</p>
+      <h2>{petInfo.name}</h2>
+      <img src={petInfo.image_url} alt={petInfo.name} />
+      <div>
+        {/* Info will only render if it has been entered for this pet */}
+        {petInfo.age && <p>Age: {petInfo.age}</p>}
+
+        {petInfo.breed && <p>Breed: {petInfo.breed}</p>}
+
+        {petInfo.allergies[0] && (
+          <p>
+            Allergies:
+            <ul>
+              {petInfo.allergies.map((allergy, index) => {
+                return <li key={index}>{allergy}</li>;
+              })}
+            </ul>
+          </p>
+        )}
+      </div>
     </div>
   );
 }
