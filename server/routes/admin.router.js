@@ -14,7 +14,8 @@ router.get('/food', (req, res) => {
     return;
   }
 
-  const sqlQuery = `SELECT 
+  const sqlQuery = `
+  SELECT 
     "foods".id, 
     "brands".name 
       AS brand, 
