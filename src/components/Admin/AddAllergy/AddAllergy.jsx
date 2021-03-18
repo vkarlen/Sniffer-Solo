@@ -12,7 +12,7 @@ function AddAllergy() {
     // Make sure there is text in the input
     if (newGroup) {
       dispatch({
-        type: 'ADD_GROUP',
+        type: 'ADMIN_ADD_GROUP',
         payload: {
           description: newGroup,
         },

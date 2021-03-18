@@ -9,7 +9,7 @@ function* addFood(action) {
     alert('Success!');
 
     yield put({
-      type: 'FETCH_FOOD',
+      type: 'ADMIN_FETCH_FOOD',
     });
   } catch (error) {
     console.log('Error in addFood', error);
@@ -21,7 +21,7 @@ function* addAllergy(action) {
     yield axios.post('/api/admin/allergy/add', action.payload);
 
     yield put({
-      type: 'FETCH_ALLERGIES',
+      type: 'ADMIN_FETCH_ALLERGIES',
     });
   } catch (error) {
     console.log('Error in addAllergy', error);
@@ -33,7 +33,7 @@ function* fetchBrands() {
     const brands = yield axios.get('/api/admin/brands');
 
     yield put({
-      type: 'SET_BRANDS',
+      type: 'ADMIN_SET_BRANDS',
       payload: brands.data,
     });
   } catch (error) {
@@ -46,7 +46,7 @@ function* fetchAllergies() {
     const allergy = yield axios.get('/api/admin/allergy');
 
     yield put({
-      type: 'SET_ALLERGY_LIST',
+      type: 'ADMIN_SET_ALLERGY_LIST',
       payload: allergy.data,
     });
   } catch (error) {
@@ -59,7 +59,7 @@ function* fetchIngredients() {
     const ingredients = yield axios.get('/api/admin/ingredients');
 
     yield put({
-      type: 'SET_INGREDIENTS',
+      type: 'ADMIN_SET_INGREDIENTS',
       payload: ingredients.data,
     });
   } catch (error) {
@@ -72,7 +72,7 @@ function* fetchFood() {
     const food = yield axios.get('/api/admin/food/');
 
     yield put({
-      type: 'SET_FOOD_LIST',
+      type: 'ADMIN_SET_FOOD_LIST',
       payload: food.data,
     });
   } catch (error) {
@@ -87,7 +87,7 @@ function* updateAllergy(action) {
     yield axios.put('/api/admin/ingredient/update', action.payload);
 
     yield put({
-      type: 'FETCH_INGREDIENTS',
+      type: 'ADMIN_FETCH_INGREDIENTS',
     });
   } catch (error) {
     console.log('Error in changeGrouping', error);
@@ -95,13 +95,13 @@ function* updateAllergy(action) {
 } // end changeGrouping
 
 function* adminSaga() {
-  yield takeEvery('ADD_FOOD', addFood);
-  yield takeEvery('ADD_GROUP', addAllergy);
-  yield takeEvery('FETCH_BRANDS', fetchBrands);
-  yield takeEvery('FETCH_ALLERGIES', fetchAllergies);
-  yield takeEvery('FETCH_INGREDIENTS', fetchIngredients);
-  yield takeEvery('FETCH_FOOD', fetchFood);
-  yield takeEvery('UPDATE_ALLERGY', updateAllergy);
+  yield takeEvery('ADMIN_ADD_FOOD', addFood);
+  yield takeEvery('ADMIN_ADD_GROUP', addAllergy);
+  yield takeEvery('ADMIN_FETCH_BRANDS', fetchBrands);
+  yield takeEvery('ADMIN_FETCH_ALLERGIES', fetchAllergies);
+  yield takeEvery('ADMIN_FETCH_INGREDIENTS', fetchIngredients);
+  yield takeEvery('ADMIN_FETCH_FOOD', fetchFood);
+  yield takeEvery('ADMIN_UPDATE_ALLERGY', updateAllergy);
 }
 
 export default adminSaga;
