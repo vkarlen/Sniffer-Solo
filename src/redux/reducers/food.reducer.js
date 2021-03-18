@@ -11,6 +11,16 @@ const search = (state = [], action) => {
   }
 };
 
+const allergy = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_ALLERGIES':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   search,
+  allergy,
 });

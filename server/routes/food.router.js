@@ -6,6 +6,8 @@ const router = express.Router();
  * GET route template
  */
 router.get('/search', (req, res) => {
+  console.log('in /search', req.query.allergies);
+
   const sqlQuery = `
   SELECT 
     "foods".id, 
