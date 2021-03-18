@@ -2,31 +2,30 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+/*** GET ROUTES ***/
 router.get('/:id', (req, res) => {
   const petID = req.params.id;
 
-  const sqlQuery = `SELECT 
-	"pets".id, 
-	"pets".name, 
-	"pets".image_url, 
-	"pets".breed,
-	"pets".age,
-	ARRAY_AGG("allergies".description)
-    AS allergies
-FROM "pets_allergies"
-FULL OUTER JOIN "pets" 
-  ON "pets".id = "pets_allergies".pet_id
-FULL OUTER JOIN "allergies" 
-  ON "allergies".id = "pets_allergies".allergy_id
-WHERE "pets".id = $1
-GROUP BY 
-	"pets".id, 
-	"pets".name, 
-	"pets".image_url, 
-	"pets".breed;`;
+  const sqlQuery = `
+  SELECT 
+    "pets".id, 
+    "pets".name, 
+    "pets".image_url, 
+    "pets".breed,
+    "pets".age,
+    ARRAY_AGG("allergies".description)
+      AS allergies
+  FROM "pets_allergies"
+  FULL OUTER JOIN "pets" 
+    ON "pets".id = "pets_allergies".pet_id
+  FULL OUTER JOIN "allergies" 
+    ON "allergies".id = "pets_allergies".allergy_id
+  WHERE "pets".id = $1
+  GROUP BY 
+    "pets".id, 
+    "pets".name, 
+    "pets".image_url, 
+    "pets".breed;`;
 
   pool
     .query(sqlQuery, [petID])
@@ -38,9 +37,7 @@ GROUP BY
     });
 });
 
-/**
- * POST route template
- */
+/*** POST ROUTES ***/
 router.post('/', (req, res) => {
   // POST route code here
 });

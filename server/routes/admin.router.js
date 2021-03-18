@@ -55,7 +55,7 @@ router.get('/brands', (req, res) => {
     return;
   }
 
-  const sqlQuery = `SELECT * FROM "brands"`;
+  const sqlQuery = `SELECT * FROM "brands";`;
 
   pool
     .query(sqlQuery)
@@ -77,8 +77,13 @@ router.get('/allergy', (req, res) => {
     return;
   }
 
-  const sqlQuery = `SELECT * FROM "allergies"
-  ORDER BY ("id" = 0) DESC, ("id" = 1) DESC, description;`;
+  const sqlQuery = `
+  SELECT * 
+  FROM "allergies"
+  ORDER BY 
+    ("id" = 0) DESC, 
+    ("id" = 1) DESC, 
+    description;`;
 
   pool
     .query(sqlQuery)
@@ -99,9 +104,17 @@ router.get('/ingredients', rejectUnauthenticated, (req, res) => {
     return;
   }
 
-  const sqlQuery = `SELECT "ingredients".id, "ingredients".description as Ingredient, "ingredients".allergy_id as all_id, "allergies".description as Group FROM "ingredients"
+  const sqlQuery = `
+  SELECT 
+    "ingredients".id, 
+    "ingredients".description as Ingredient, 
+    "ingredients".allergy_id as all_id, 
+    "allergies".description as Group 
+  FROM "ingredients"
   JOIN "allergies" ON "ingredients".allergy_id = "allergies".id
-  ORDER BY ("allergy_id" = 0) DESC, "ingredients".description;`;
+  ORDER BY 
+    ("allergy_id" = 0) DESC, 
+    "ingredients".description;`;
 
   pool
     .query(sqlQuery)
@@ -128,8 +141,10 @@ router.post('/food/add', rejectUnauthenticated, (req, res) => {
 
   // SQL to add initial food entry and return the ID
   const sqlFoods = `
-  INSERT INTO "foods" ("brand_id", "description", "image")
-  VALUES ($1, $2, $3)
+  INSERT INTO "foods" 
+    ("brand_id", "description", "image")
+  VALUES 
+    ($1, $2, $3)
   RETURNING "id";`;
 
   pool
@@ -139,7 +154,8 @@ router.post('/food/add', rejectUnauthenticated, (req, res) => {
       const newFoodID = dbRes.rows[0].id;
 
       // Start the SQL statement for adding the Ingredients
-      let sqlIngredients = `INSERT INTO "ingredients" ("description")
+      let sqlIngredients = `
+      INSERT INTO "ingredients" ("description")
       VALUES`;
 
       // For each ingredient on the list, add a placeholder
@@ -164,7 +180,9 @@ router.post('/food/add', rejectUnauthenticated, (req, res) => {
         .query(sqlIngredients, ingredients)
         .then((dbRes) => {
           // Start SQL for join table
-          let sqlJoin = `INSERT INTO "foods_ingredients" ("food_id", "ingredients_id")
+          let sqlJoin = `
+          INSERT INTO "foods_ingredients" 
+            ("food_id", "ingredients_id")
           VALUES `;
 
           // Add line for each ingredient
@@ -212,8 +230,10 @@ router.post('/allergy/add', rejectUnauthenticated, (req, res) => {
     return;
   }
 
-  const sqlQuery = `INSERT INTO "allergies" ("description")
-  VALUES ($1)`;
+  const sqlQuery = `
+  INSERT INTO "allergies" 
+    ("description")
+  VALUES ($1);`;
 
   pool
     .query(sqlQuery, [req.body.description])
@@ -235,7 +255,8 @@ router.put('/ingredient/update', rejectUnauthenticated, (req, res) => {
     return;
   }
 
-  const sqlQuery = `UPDATE "ingredients"
+  const sqlQuery = `
+  UPDATE "ingredients"
   SET "allergy_id" = $1
   WHERE "id" = $2;`;
 
