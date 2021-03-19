@@ -17,7 +17,25 @@ function AddPetPage() {
   }, []);
 
   const handleSubmit = () => {
-    console.log('in submit', allergyList);
+    // Make sure a name is entered
+    if (newName) {
+      dispatch({
+        type: 'ADD_PET',
+        payload: {
+          name: newName,
+          picture: newPicture,
+          age: newAge,
+          breed: newBreed,
+          allergies: allergyList,
+        },
+      });
+
+      setNewName('');
+      setNewPicture('');
+      setNewAge('');
+      setNewBreed('');
+      setAllergyList([]);
+    }
   };
 
   const addAllergy = (event) => {
@@ -41,6 +59,7 @@ function AddPetPage() {
           placeholder="Pets Name"
           value={newName}
           onChange={(evt) => setNewName(evt.target.value)}
+          required
         />
 
         <input
