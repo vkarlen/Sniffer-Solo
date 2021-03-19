@@ -9,7 +9,8 @@ function MyPetsPage() {
   return (
     <div>
       <h2>My Pets</h2>
-      <button>+ add a pet</button>
+      <button onClick={() => history.push('/addapet')}>+ add a pet</button>
+
       {pets.length === 0 ? (
         <p>Please add a pet!</p>
       ) : (

@@ -38,8 +38,61 @@ router.get('/:id', (req, res) => {
 });
 
 /*** POST ROUTES ***/
-router.post('/', (req, res) => {
-  // POST route code here
+router.post('/add', (req, res) => {
+  console.log('in /add', req.body);
+  const pet = req.body;
+
+  const petSql = `INSERT INTO "pets" ("name", "owner_id", "image_url", "age", "breed")
+  VALUES ($1, $2, $3, $4, $5)
+  RETURNING "id";`;
+
+  pool
+    .query(petSql, [pet.name, req.user.id, pet.picture, pet.age, pet.breed])
+    .then((dbRes) => {
+      console.log('made it here');
+      const petID = dbRes.rows[0].id;
+
+      if (pet.allergies.length > 0) {
+        let allergySql = `
+          INSERT INTO "pets_allergies" 
+            ("pet_id", "allergy_id")
+          VALUES `;
+
+        // For each ingredient on the list, add a placeholder
+        for (let i = 1; i < pet.allergies.length + 1; i++) {
+          allergySql = allergySql.concat(
+            `('${petID}', (SELECT id FROM "allergies" WHERE "allergies".description = $${i}))`
+          );
+
+          // Add comma to all lines except the last
+          if (i !== pet.allergies.length) {
+            allergySql = allergySql.concat(`,
+          `);
+          } else {
+            allergySql = allergySql.concat(`;`);
+          }
+
+          console.log(allergySql);
+        }
+
+        pool
+          .query(allergySql, pet.allergies)
+          .then((dbRes) => {
+            console.log('We did it!');
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            console.log('Error adding allergies', err);
+            res.sendStatus(500);
+          });
+      } else {
+        res.sendStatus(200);
+      }
+    })
+    .catch((err) => {
+      console.log('Error in /add', error);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;

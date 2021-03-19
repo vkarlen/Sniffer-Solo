@@ -12,10 +12,24 @@ function* fetchExact(action) {
   } catch (error) {
     console.log('Error in fetchExact', error);
   }
+} // end fetchExact
+
+function* addPet(action) {
+  console.log('addPet', action.payload);
+  try {
+    yield axios.post('/api/pet/add', action.payload);
+
+    yield put({
+      type: 'FETCH_PETS',
+    });
+  } catch (error) {
+    console.log('Error in addPet', error);
+  }
 }
 
 function* petSaga() {
   yield takeEvery('FETCH_EXACT_PET', fetchExact);
+  yield takeEvery('ADD_PET', addPet);
 }
 
 export default petSaga;

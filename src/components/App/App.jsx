@@ -21,6 +21,7 @@ import MyPetsPage from '../MyPetsPage/MyPetsPage';
 import SearchPage from '../SearchPage/SearchPage';
 import ComparisonTool from '../ComparisonTool/ComparisonTool';
 import PetDetailPage from '../PetDetailPage/PetDetailPage';
+import AddPetPage from '../AddPetPage/AddPetPage';
 
 import AdminPortal from '../Admin/AdminPortal/AdminPortal';
 import AdminFoods from '../Admin/AdminFoods/AdminFoods';
@@ -73,6 +74,10 @@ function App() {
           <Route path="/pets/:id" exact>
             <PetDetailPage />
           </Route>
+
+          <ProtectedRoute exact path="/addapet">
+            <AddPetPage />
+          </ProtectedRoute>
 
           {/*** ADMIN ROUTES ***/}
           {user.authLevel === 'ADMIN' && (
