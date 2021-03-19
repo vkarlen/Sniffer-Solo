@@ -1,7 +1,12 @@
 import { useParams } from 'react-router-dom';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import './SearchPage.css';
+
+//
+let searchQuery = [];
 
 function SearchPage() {
   const dispatch = useDispatch();
@@ -9,14 +14,14 @@ function SearchPage() {
   const searchResults = useSelector((store) => store.food.search);
   const allergies = useSelector((store) => store.food.allergy);
 
-  let searchQuery = [];
-
   useEffect(() => {
     dispatch({ type: 'FETCH_ALLERGIES' });
+    dispatch({ type: 'CLEAR_SEARCH' });
   }, []);
 
   function addToQuery(event) {
-    console.log('in add', event.target.value);
+    // console.log('in add', event.target.value);
+    // console.log(searchQuery);
 
     searchQuery.push(event.target.value);
 
@@ -44,8 +49,12 @@ function SearchPage() {
           <>
             {searchResults.map((result) => {
               return (
-                <div key={result.id}>
-                  <img src={result.image} alt={result.description} />
+                <div key={result.id} className="searchResultBox">
+                  <img
+                    src={result.image}
+                    alt={result.description}
+                    className="searchImg"
+                  />
                   <p>
                     {result.brand} {result.description}
                   </p>

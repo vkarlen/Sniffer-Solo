@@ -2,37 +2,57 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+/*** GET ROUTES ***/
+// Searches DB for foods not including selected allergies
 router.get('/search', (req, res) => {
-  console.log('in /search', req.query.allergies);
+  const allergyList = req.query.allergies;
 
-  const sqlQuery = `
+  let sqlQuery = `
   SELECT 
-    "foods".id, 
-    "brands".name as brand,
-    "foods".description, 
-    "foods".image,
-    ARRAY_AGG("ingredients".description
-      ORDER BY "foods_ingredients".id)
-    	AS ingredients
-  FROM "foods"
-  JOIN "foods_ingredients" 
-    ON "foods_ingredients".food_id = "foods".id
-  JOIN "ingredients" 
-    ON "ingredients".id = "foods_ingredients".ingredients_id
-  JOIN "brands"
-    ON "brands".id = "foods".brand_id
-  WHERE "ingredients".allergy_id <> '2'
-    AND "ingredients".allergy_id <> '12'
-  GROUP BY 
-    "foods".id, 
-    "brands".name,
-    "foods".description, 
-    "foods".image
-  ORDER BY RANDOM ()
-  LIMIT 20;`;
+	"foods".id,
+	"brands".name,
+	"foods".description,
+	"foods".image,
+	"allergy_lists".list
+FROM "foods"
+JOIN (SELECT 
+			"foods_ingredients".food_id, 
+			ARRAY_AGG("ingredients".allergy_id )
+				FILTER (WHERE "ingredients".allergy_id > '1')
+				AS list
+		FROM "foods_ingredients"
+		JOIN "ingredients" 
+			ON "ingredients".id = "foods_ingredients".ingredients_id
+		GROUP BY "foods_ingredients".food_id
+		ORDER BY "foods_ingredients".food_id) AS allergy_lists
+	ON "foods".id = "allergy_lists".food_id
+JOIN "brands"
+	ON "brands".id = "foods".brand_id
+WHERE `;
+
+  // For each ingredient on the list, add a placeholder
+  for (let i = 1; i < allergyList.length + 1; i++) {
+    sqlQuery = sqlQuery.concat(`NOT $${i} =ANY(list)`);
+
+    // Add AND to all lines except the last
+    if (i !== allergyList.length) {
+      sqlQuery = sqlQuery.concat(`
+          AND `);
+    }
+  }
+
+  // close query
+  sqlQuery = sqlQuery.concat(`;`);
+
+  pool
+    .query(sqlQuery, allergyList)
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in GET /search', err);
+      res.sendStatus(500);
+    });
 });
 
 // Get a list of the allergies, not including Unassigned/None

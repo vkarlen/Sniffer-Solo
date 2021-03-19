@@ -2,15 +2,15 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* fetchSearch(action) {
-  console.log(action.payload);
   try {
     const results = yield axios.get(`/api/food/search`, {
       params: { allergies: action.payload },
     });
-    // yield put({
-    //   type: 'SET_SEARCH',
-    //   payload: results.data,
-    // });
+
+    yield put({
+      type: 'SET_SEARCH',
+      payload: results.data,
+    });
   } catch (error) {
     console.log('Error in fetchSearch', error);
   }
