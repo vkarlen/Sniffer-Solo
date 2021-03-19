@@ -9,7 +9,7 @@ function FoodTable() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_FOOD' });
+    dispatch({ type: 'ADMIN_FETCH_FOOD' });
   }, []);
 
   const foodList = useSelector((store) => store.admin.foodReducer);

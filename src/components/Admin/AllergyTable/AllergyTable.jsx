@@ -5,8 +5,8 @@ function AllergyTable() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_ALLERGIES' });
-    dispatch({ type: 'FETCH_INGREDIENTS' });
+    dispatch({ type: 'ADMIN_FETCH_ALLERGIES' });
+    dispatch({ type: 'ADMIN_FETCH_INGREDIENTS' });
   }, []);
 
   const allergies = useSelector((store) => store.admin.allergyReducer);
@@ -16,7 +16,7 @@ function AllergyTable() {
     //console.log('in Change', newGroup, ingredient);
 
     dispatch({
-      type: 'UPDATE_ALLERGY',
+      type: 'ADMIN_UPDATE_ALLERGY',
       payload: {
         newGroup,
         ingredient,

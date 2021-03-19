@@ -4,6 +4,7 @@ import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import adminSaga from './admin.saga';
 import petSaga from './pet.saga';
+import foodSaga from './food.saga';
 
 // some sagas trigger other sagas, as an example
 // the registration triggers a login
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     userSaga(),
     adminSaga(),
     petSaga(),
+    foodSaga(),
   ]);
 }

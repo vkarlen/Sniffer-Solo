@@ -7,7 +7,7 @@ function AddFood() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_BRANDS' });
+    dispatch({ type: 'ADMIN_FETCH_BRANDS' });
   }, []);
 
   const brandList = useSelector((store) => store.admin.brandReducer);
@@ -24,7 +24,7 @@ function AddFood() {
     const ingredientsArray = newIngredients.split(', ');
 
     dispatch({
-      type: 'ADD_FOOD',
+      type: 'ADMIN_ADD_FOOD',
       payload: {
         brand: newBrand,
         description: newDesc,
