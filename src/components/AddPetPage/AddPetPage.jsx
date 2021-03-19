@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function AddPetPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const allergies = useSelector((store) => store.food.allergy);
 
@@ -35,6 +37,8 @@ function AddPetPage() {
       setNewAge('');
       setNewBreed('');
       setAllergyList([]);
+
+      history.push('/pets');
     }
   };
 
