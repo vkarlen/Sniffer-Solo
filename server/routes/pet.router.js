@@ -38,8 +38,8 @@ router.get('/:id', (req, res) => {
 });
 
 /*** POST ROUTES ***/
-router.post('/', (req, res) => {
-  // POST route code here
+router.post('/add', (req, res) => {
+  console.log('in /add', req.body);
 });
 
 module.exports = router;
