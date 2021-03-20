@@ -25,7 +25,13 @@ function EditPet() {
 
   const deleteAllergy = (allergy) => {
     // Removes clicked allergy from allergyList
-    //setAllergyList(allergyList.filter((item) => item !== allergy));
+    let newAllergyList = pet.allergies.filter((item) => item !== allergy);
+    console.log(newAllergyList);
+
+    dispatch({
+      type: 'EDIT_DELETE_ALLERGY',
+      payload: newAllergyList,
+    });
   }; // end deleteAllergy
 
   const handleChange = (value, prop) => {
@@ -48,7 +54,7 @@ function EditPet() {
   return (
     <div>
       <h2>Edit</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <input
           type="text"
           placeholder="Pets Name"
@@ -93,17 +99,16 @@ function EditPet() {
         </select>
 
         {/* Only renders if pet had allergies */}
-        {pet.allergies[0] &&
-          pet.allergies.map((allergy, index) => {
-            return (
-              <span key={index}>
-                {allergy}
-                <button onClick={() => deleteAllergy(allergy)}>X</button>
-              </span>
-            );
-          })}
+        {pet.allergies.map((allergy, index) => {
+          return (
+            <span key={index}>
+              {allergy}
+              <button onClick={() => deleteAllergy(allergy)}>X</button>
+            </span>
+          );
+        })}
 
-        <button>Update</button>
+        <button onClick={handleSubmit}>Update</button>
       </form>
     </div>
   );
