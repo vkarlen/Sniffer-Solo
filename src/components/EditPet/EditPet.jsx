@@ -7,10 +7,6 @@ function EditPet() {
   const pet = useSelector((store) => store.pet.editPet);
   const allergies = useSelector((store) => store.food.allergy);
 
-  const [newName, setNewName] = useState(pet.name);
-  const [newPicture, setNewPicture] = useState(pet.image_url);
-  const [newAge, setNewAge] = useState(pet.age);
-  const [newBreed, setNewBreed] = useState(pet.breed);
   const [allergyList, setAllergyList] = useState(pet.allergies);
 
   useEffect(() => {
@@ -29,6 +25,14 @@ function EditPet() {
     setAllergyList(allergyList.filter((item) => item !== allergy));
   }; // end deleteAllergy
 
+  const handleChange = (value, prop) => {
+    // Every change is stored in the redux store
+    dispatch({
+      type: 'EDIT_ONCHANGE',
+      payload: { property: prop, value: event },
+    });
+  }; // end handleChange
+
   return (
     <div>
       <h2>Edit {pet.name}</h2>
@@ -36,30 +40,30 @@ function EditPet() {
         <input
           type="text"
           placeholder="Pets Name"
-          value={newName}
-          onChange={(evt) => setNewName(evt.target.value)}
+          value={pet.name}
+          onChange={(evt) => handleChange(evt.target.value, 'name')}
           required
         />
 
         <input
           type="text"
           placeholder="Pets Picture"
-          value={newPicture}
-          onChange={(evt) => setNewPicture(evt.target.value)}
+          value={pet.image_url}
+          onChange={(evt) => handleChange(evt.target.value, 'image_url')}
         />
 
         <input
           type="text"
           placeholder="Pets Age"
-          value={newAge}
-          onChange={(evt) => setNewAge(evt.target.value)}
+          value={pet.age}
+          onChange={(evt) => handleChange(evt.target.value, 'age')}
         />
 
         <input
           type="text"
           placeholder="Pets Breed"
-          value={newBreed}
-          onChange={(evt) => setNewBreed(evt.target.value)}
+          value={pet.breed}
+          onChange={(evt) => handleChange(evt.target.value, 'breed')}
         />
 
         <button>Update</button>
