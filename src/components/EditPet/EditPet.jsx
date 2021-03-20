@@ -13,16 +13,19 @@ function EditPet() {
     dispatch({ type: 'FETCH_ALLERGIES' });
   }, []);
 
-  const addAllergy = (event) => {
+  const addAllergy = (value) => {
     // Only adds allergy to list if it is not already in it
-    if (!allergyList.includes(event.target.value)) {
-      setAllergyList([...allergyList, event.target.value]);
+    if (!pet.allergies.includes(value)) {
+      dispatch({
+        type: 'EDIT_ONCHANGE',
+        payload: { property: 'allergies', value: [...pet.allergies, value] },
+      });
     }
   }; // end addAllergy
 
   const deleteAllergy = (allergy) => {
     // Removes clicked allergy from allergyList
-    setAllergyList(allergyList.filter((item) => item !== allergy));
+    //setAllergyList(allergyList.filter((item) => item !== allergy));
   }; // end deleteAllergy
 
   const handleChange = (value, prop) => {
@@ -75,25 +78,33 @@ function EditPet() {
           onChange={(evt) => handleChange(evt.target.value, 'breed')}
         />
 
+        <select
+          defaultValue="ADD"
+          onChange={(evt) => addAllergy(evt.target.value)}
+        >
+          <option hidden>ADD</option>
+          {allergies.map((allergy) => {
+            return (
+              <option key={allergy.id} value={allergy.description}>
+                {allergy.description}
+              </option>
+            );
+          })}
+        </select>
+
+        {/* Only renders if pet had allergies */}
+        {pet.allergies[0] &&
+          pet.allergies.map((allergy, index) => {
+            return (
+              <span key={index}>
+                {allergy}
+                <button onClick={() => deleteAllergy(allergy)}>X</button>
+              </span>
+            );
+          })}
+
         <button>Update</button>
       </form>
-      <select defaultValue="ADD" onChange={addAllergy}>
-        <option hidden>ADD</option>
-        {allergies.map((allergy) => {
-          return (
-            <option key={allergy.id} value={allergy.description}>
-              {allergy.description}
-            </option>
-          );
-        })}
-      </select>
-      {allergyList.map((allergy, index) => {
-        return (
-          <span key={index}>
-            {allergy} <button onClick={() => deleteAllergy(allergy)}>X</button>
-          </span>
-        );
-      })}
     </div>
   );
 }
