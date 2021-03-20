@@ -105,7 +105,8 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
 
   const sqlQuery = `UPDATE "pets" 
   SET "name" = $3, "image_url" = $4, "age" = $5, "breed" = $6 
-  WHERE "id" = $1 AND "owner_id" = $2;`;
+  WHERE "id" = $1 AND "owner_id" = $2
+  RETURNING "id";`;
   const sqlParams = [
     pet.id,
     userId,
@@ -118,7 +119,77 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
   pool
     .query(sqlQuery, sqlParams)
     .then((dbRes) => {
-      res.sendStatus(200);
+      const petID = dbRes.rows[0].id;
+
+      // Builds SQL to remove any allergies deleted
+      let sqlDelete = `DELETE FROM "pets_allergies"
+      WHERE "pets_allergies".allergy_id NOT IN (`;
+
+      // If there are no allergies in the array, deletes all for that pet
+      if (pet.allergies.length === 0) {
+        sqlDelete = sqlDelete.concat(
+          `'0') AND "pets_allergies".pet_id = ${petID};`
+        );
+      }
+
+      for (let i = 1; i < pet.allergies.length + 1; i++) {
+        sqlDelete = sqlDelete.concat(
+          `(SELECT id FROM "allergies" WHERE "allergies".description = $${i})`
+        );
+
+        // Add comma to all lines except the last
+        if (i !== pet.allergies.length) {
+          sqlDelete = sqlDelete.concat(`, `);
+        } else {
+          sqlDelete = sqlDelete.concat(
+            `) AND "pets_allergies".pet_id = ${petID};`
+          );
+        }
+      }
+
+      pool
+        .query(sqlDelete, pet.allergies)
+        .then((dbRes) => {
+          // Check if theres anything to insert
+          if (pet.allergies.length !== 0) {
+            // Builds SQL to insert new allergies given
+            let sqlInsert = `INSERT INTO "pets_allergies" ("pet_id","allergy_id")
+            VALUES `;
+
+            for (let i = 1; i < pet.allergies.length + 1; i++) {
+              sqlInsert = sqlInsert.concat(
+                `(${petID}, (SELECT id FROM "allergies" WHERE "allergies".description = $${i}))`
+              );
+
+              // Add comma to all lines except the last
+              if (i !== pet.allergies.length) {
+                sqlInsert = sqlInsert.concat(`, `);
+              } else {
+                sqlInsert = sqlInsert.concat(
+                  `
+                  ON CONFLICT (pet_id, allergy_id)
+                  DO NOTHING;`
+                );
+              }
+            }
+
+            pool
+              .query(sqlInsert, pet.allergies)
+              .then((dbRes) => {
+                res.sendStatus(200);
+              })
+              .catch((err) => {
+                console.log('Error in edit insert', err);
+                res.sentStatus(500);
+              });
+          } else {
+            // If theres nothing to insert, don't
+            res.sendStatus(200);
+          }
+        })
+        .catch((err) => {
+          console.log('Error in edit delete', err);
+        });
     })
     .catch((err) => {
       console.log('Error in PUT', err);

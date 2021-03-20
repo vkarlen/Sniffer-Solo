@@ -29,10 +29,12 @@ function* addPet(action) {
 } // end addPet
 
 function* updatePet(action) {
-  console.log('in Update', action.payload);
-
   try {
     yield axios.put(`/api/pet/edit/${action.payload.id}`, action.payload);
+
+    yield put({
+      type: 'FETCH_PETS',
+    });
   } catch (error) {
     console.log('Error in updatePet', error);
   }

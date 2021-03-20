@@ -55,6 +55,8 @@ function EditPet() {
       type: 'UPDATE_PET',
       payload: pet,
     });
+
+    history.push(`/pets/${pet.id}`);
   }; // end handleSubmit
 
   return (
