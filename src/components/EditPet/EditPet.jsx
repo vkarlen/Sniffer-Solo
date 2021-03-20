@@ -29,14 +29,23 @@ function EditPet() {
     // Every change is stored in the redux store
     dispatch({
       type: 'EDIT_ONCHANGE',
-      payload: { property: prop, value: event },
+      payload: { property: prop, value: value },
     });
   }; // end handleChange
 
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    dispatch({
+      type: 'UPDATE_PET',
+      payload: pet,
+    });
+  }; // end handleSubmit
+
   return (
     <div>
-      <h2>Edit {pet.name}</h2>
-      <form>
+      <h2>Edit</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Pets Name"
