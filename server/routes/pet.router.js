@@ -1,9 +1,12 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
-router.get('/:id', (req, res) => {
+router.get('/:id', rejectUnauthenticated, (req, res) => {
   const petID = req.params.id;
 
   const sqlQuery = `
@@ -38,7 +41,7 @@ router.get('/:id', (req, res) => {
 });
 
 /*** POST ROUTES ***/
-router.post('/add', (req, res) => {
+router.post('/add', rejectUnauthenticated, (req, res) => {
   console.log('in /add', req.body);
   const pet = req.body;
 
@@ -91,6 +94,34 @@ router.post('/add', (req, res) => {
     })
     .catch((err) => {
       console.log('Error in /add', error);
+      res.sendStatus(500);
+    });
+});
+
+/*** PUT ROUTES ***/
+router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
+  const userId = req.user.id;
+  const pet = req.body;
+
+  const sqlQuery = `UPDATE "pets" 
+  SET "name" = $3, "image_url" = $4, "age" = $5, "breed" = $6 
+  WHERE "id" = $1 AND "owner_id" = $2;`;
+  const sqlParams = [
+    pet.id,
+    userId,
+    pet.name,
+    pet.image_url,
+    pet.age,
+    pet.breed,
+  ];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in PUT', err);
       res.sendStatus(500);
     });
 });
