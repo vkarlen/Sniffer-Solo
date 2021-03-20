@@ -22,6 +22,7 @@ import SearchPage from '../SearchPage/SearchPage';
 import ComparisonTool from '../ComparisonTool/ComparisonTool';
 import PetDetailPage from '../PetDetailPage/PetDetailPage';
 import AddPetPage from '../AddPetPage/AddPetPage';
+import EditPet from '../EditPet/EditPet';
 
 import AdminPortal from '../Admin/AdminPortal/AdminPortal';
 import AdminFoods from '../Admin/AdminFoods/AdminFoods';
@@ -77,6 +78,10 @@ function App() {
 
           <ProtectedRoute exact path="/addapet">
             <AddPetPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/edit">
+            <EditPet />
           </ProtectedRoute>
 
           {/*** ADMIN ROUTES ***/}
