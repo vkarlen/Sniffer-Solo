@@ -26,11 +26,10 @@ function EditPet() {
   const deleteAllergy = (allergy) => {
     // Removes clicked allergy from allergyList
     let newAllergyList = pet.allergies.filter((item) => item !== allergy);
-    console.log(newAllergyList);
 
     dispatch({
-      type: 'EDIT_DELETE_ALLERGY',
-      payload: newAllergyList,
+      type: 'EDIT_ONCHANGE',
+      payload: { property: 'allergies', value: newAllergyList },
     });
   }; // end deleteAllergy
 

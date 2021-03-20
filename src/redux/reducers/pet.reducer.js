@@ -27,11 +27,6 @@ const editPet = (state = defaultPet, action) => {
         ...state,
         [action.payload.property]: action.payload.value,
       };
-    case 'EDIT_DELETE_ALLERGY':
-      return {
-        ...state,
-        allergies: action.payload,
-      };
     default:
       return state;
   }
