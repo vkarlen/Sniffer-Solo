@@ -62,6 +62,11 @@ function EditPet() {
   return (
     <div>
       <h2>Edit</h2>
+      <button>delete</button>
+
+      <br />
+      <br />
+
       <form>
         <input
           type="text"
