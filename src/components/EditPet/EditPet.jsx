@@ -1,15 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { useHistory } from 'react-router-dom';
 
 function EditPet() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const pet = useSelector((store) => store.pet.editPet);
   const allergies = useSelector((store) => store.food.allergy);
 
-  const [allergyList, setAllergyList] = useState(pet.allergies);
-
   useEffect(() => {
+    // If someone navigates here not from a pet's page, send them to pets
+    if (!pet.id) {
+      history.push('/pets');
+    }
+
     dispatch({ type: 'FETCH_ALLERGIES' });
   }, []);
 
@@ -24,9 +30,10 @@ function EditPet() {
   }; // end addAllergy
 
   const deleteAllergy = (allergy) => {
-    // Removes clicked allergy from allergyList
+    // Filters clicked allergy out of pet's allergies
     let newAllergyList = pet.allergies.filter((item) => item !== allergy);
 
+    // Sets allergies to newAllergyList in store
     dispatch({
       type: 'EDIT_ONCHANGE',
       payload: { property: 'allergies', value: newAllergyList },
