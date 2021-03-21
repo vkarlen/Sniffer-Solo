@@ -28,6 +28,8 @@ const editPet = (state = defaultPet, action) => {
         ...state,
         [action.payload.property]: action.payload.value,
       };
+    case 'CLEAR_EDIT_PET':
+      return defaultPet;
     default:
       return state;
   }

@@ -59,10 +59,23 @@ function EditPet() {
     history.push(`/pets/${pet.id}`);
   }; // end handleSubmit
 
+  const handleDelete = () => {
+    dispatch({
+      type: 'DELETE_PET',
+      payload: pet.id,
+    });
+
+    dispatch({
+      type: 'CLEAR_EDIT_PET',
+    });
+
+    history.push('/pets');
+  };
+
   return (
     <div>
       <h2>Edit</h2>
-      <button>delete</button>
+      <button onClick={handleDelete}>delete</button>
 
       <br />
       <br />

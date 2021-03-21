@@ -196,4 +196,25 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+/*** DELETE ROUTES ***/
+router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
+  const petID = req.params.id;
+  const ownerID = req.user.id;
+
+  const sqlQuery = `DELETE FROM "pets"
+  WHERE "pets".id = $1
+  AND "pets".owner_id = $2;`;
+
+  pool
+    .query(sqlQuery, [petID, ownerID])
+    .then((dbRes) => {
+      console.log('deleted');
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in /delete', err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;
