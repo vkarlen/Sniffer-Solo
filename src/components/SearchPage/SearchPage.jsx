@@ -3,7 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Modal } from '@material-ui/core';
+
 import './SearchPage.css';
+
+import SearchDetail from '../SearchDetail/SearchDetail';
 
 // This has to exist out here or the search does not work
 let searchQuery = [];
@@ -13,6 +17,9 @@ function SearchPage() {
 
   const searchResults = useSelector((store) => store.food.search);
   const allergies = useSelector((store) => store.food.allergy);
+
+  const [open, setOpen] = useState(false);
+  const [clickedFood, setClickedFood] = useState({});
 
   useEffect(() => {
     searchQuery = [];
@@ -41,6 +48,16 @@ function SearchPage() {
       dispatch({ type: 'CLEAR_SEARCH' });
     }
   }; // end deleteFromQuery
+
+  const handleOpen = (food) => {
+    setClickedFood(food);
+    setOpen(true);
+  }; // end handleOpen
+
+  const handleClose = () => {
+    setClickedFood({});
+    setOpen(false);
+  }; // end handleClose
 
   return (
     <div>
@@ -80,6 +97,7 @@ function SearchPage() {
                     src={result.image}
                     alt={result.description}
                     className="searchImg"
+                    onClick={() => handleOpen(result)}
                   />
                   <p>
                     {result.brand} {result.description}
@@ -90,6 +108,10 @@ function SearchPage() {
           </>
         )}
       </div>
+
+      <Modal open={open} onClose={handleClose}>
+        <SearchDetail food={clickedFood} />
+      </Modal>
     </div>
   );
 }
