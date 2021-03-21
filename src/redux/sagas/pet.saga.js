@@ -38,10 +38,23 @@ function* updatePet(action) {
   }
 } // end updatePet
 
+function* deletePet(action) {
+  try {
+    yield axios.delete(`/api/pet/delete/${action.payload}`);
+
+    yield put({
+      type: 'FETCH_PETS',
+    });
+  } catch (error) {
+    console.log('Error in deletePet', error);
+  }
+}
+
 function* petSaga() {
   yield takeEvery('FETCH_EXACT_PET', fetchExact);
   yield takeEvery('ADD_PET', addPet);
   yield takeEvery('UPDATE_PET', updatePet);
+  yield takeEvery('DELETE_PET', deletePet);
 }
 
 export default petSaga;
