@@ -7,6 +7,7 @@ const defaultPet = {
   image_url: '',
   allergies: [],
 };
+
 const petDetail = (state = defaultPet, action) => {
   switch (action.type) {
     case 'SET_EXACT_PET':

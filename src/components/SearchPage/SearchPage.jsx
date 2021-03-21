@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './SearchPage.css';
 
-//
+// This has to exist out here or the search does not work
 let searchQuery = [];
 
 function SearchPage() {
@@ -15,18 +15,32 @@ function SearchPage() {
   const allergies = useSelector((store) => store.food.allergy);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_ALLERGIES' });
+    searchQuery = [];
     dispatch({ type: 'CLEAR_SEARCH' });
+    dispatch({ type: 'FETCH_ALLERGIES' });
   }, []);
 
-  function addToQuery(event) {
-    // console.log('in add', event.target.value);
-    // console.log(searchQuery);
-
-    searchQuery.push(event.target.value);
+  const addToQuery = (event) => {
+    // Only adds allergy to list if it is not already in it
+    if (!searchQuery.includes(event.target.value)) {
+      searchQuery = [...searchQuery, event.target.value];
+    }
+    //console.log(searchQuery);
 
     dispatch({ type: 'FETCH_SEARCH', payload: searchQuery });
-  }
+  }; // end addToQuery
+
+  const deleteFromQuery = (removedItem) => {
+    // Removes clicked item from searchQuery
+    searchQuery = searchQuery.filter((item) => item !== removedItem);
+
+    // Check if theres still items in query and dispatch according
+    if (searchQuery.length > 0) {
+      dispatch({ type: 'FETCH_SEARCH', payload: searchQuery });
+    } else {
+      dispatch({ type: 'CLEAR_SEARCH' });
+    }
+  }; // end deleteFromQuery
 
   return (
     <div>
@@ -42,6 +56,18 @@ function SearchPage() {
             );
           })}
         </select>
+
+        {searchQuery.map((item) => {
+          return (
+            <span key={item}>
+              {
+                allergies.find((allergy) => allergy.id === Number(item))
+                  .description
+              }
+              <button onClick={() => deleteFromQuery(item)}>X</button>
+            </span>
+          );
+        })}
       </div>
 
       <div>

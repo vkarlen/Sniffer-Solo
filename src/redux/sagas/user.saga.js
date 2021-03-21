@@ -24,7 +24,7 @@ function* fetchUser() {
   }
 } // end fetchUser
 
-function* fetchPets(action) {
+function* fetchPets() {
   try {
     const pets = yield axios.get('/api/user/pets');
 
@@ -32,7 +32,7 @@ function* fetchPets(action) {
   } catch (error) {
     console.log('Error in fetchPets', error);
   }
-}
+} // end fetchPets
 
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);

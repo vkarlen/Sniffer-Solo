@@ -9,16 +9,15 @@ function AllergyTable() {
     dispatch({ type: 'ADMIN_FETCH_INGREDIENTS' });
   }, []);
 
-  const allergies = useSelector((store) => store.admin.allergyReducer);
-  const ingredients = useSelector((store) => store.admin.ingredientReducer);
+  const allergies = useSelector((store) => store.admin.allergy);
+  const ingredients = useSelector((store) => store.admin.ingredient);
 
-  const handleChange = (newGroup, ingredient) => {
-    //console.log('in Change', newGroup, ingredient);
-
+  const handleChange = (newType, ingredient) => {
+    // Update allergy type when dropdown is changed
     dispatch({
       type: 'ADMIN_UPDATE_ALLERGY',
       payload: {
-        newGroup,
+        newType,
         ingredient,
       },
     });
@@ -30,7 +29,7 @@ function AllergyTable() {
         <thead>
           <tr>
             <th>Ingredient</th>
-            <th>Allergy Class</th>
+            <th>Allergy Type</th>
           </tr>
         </thead>
 

@@ -17,7 +17,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 // Gets list of user's pets
 router.get('/pets', rejectUnauthenticated, (req, res) => {
-  console.log('user', req.user.id);
   const sqlQuery = `SELECT * FROM "pets"
   WHERE "owner_id" = ${req.user.id};`;
 

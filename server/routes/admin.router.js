@@ -6,7 +6,7 @@ const {
 } = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
-router.get('/food', (req, res) => {
+router.get('/food', rejectUnauthenticated, (req, res) => {
   // Boot any requests that do not come from the Admin
   if (req.user.authLevel !== 'ADMIN') {
     res.sendStatus(403);
@@ -48,7 +48,7 @@ router.get('/food', (req, res) => {
     });
 });
 
-router.get('/brands', (req, res) => {
+router.get('/brands', rejectUnauthenticated, (req, res) => {
   // Boot any requests that do not come from the Admin
   if (req.user.authLevel !== 'ADMIN') {
     res.sendStatus(403);
@@ -69,8 +69,7 @@ router.get('/brands', (req, res) => {
     });
 });
 
-// Get a list of the allergies
-router.get('/allergy', (req, res) => {
+router.get('/allergy', rejectUnauthenticated, (req, res) => {
   // Boot any requests that do not come from the Admin
   if (req.user.authLevel !== 'ADMIN') {
     res.sendStatus(403);
@@ -164,18 +163,16 @@ router.post('/food/add', rejectUnauthenticated, (req, res) => {
         sqlIngredients = sqlIngredients.concat(`($${i})`);
 
         // Add comma to all lines except the last
+        //  Add closure to last line
         if (i !== ingredients.length) {
           sqlIngredients = sqlIngredients.concat(`,
           `);
+        } else {
+          sqlIngredients = sqlIngredients.concat(`
+          ON CONFLICT ("description")
+          DO NOTHING;`);
         }
       }
-
-      // Add argument so duplicate ingredients will not be added
-      sqlIngredients = sqlIngredients.concat(`
-      ON CONFLICT ("description")
-      DO NOTHING;`);
-
-      //console.log(sqlIngredients);
 
       pool
         .query(sqlIngredients, ingredients)
@@ -193,16 +190,14 @@ router.post('/food/add', rejectUnauthenticated, (req, res) => {
             );
 
             // Add comma to all lines except the last
+            //  Add closure to last line
             if (i !== ingredients.length - 1) {
               sqlJoin = sqlJoin.concat(`,
               `);
+            } else {
+              sqlJoin = sqlJoin.concat(';');
             }
           }
-
-          // Close SQL query
-          sqlJoin = sqlJoin.concat(';');
-
-          //console.log(sqlJoin);
 
           pool
             .query(sqlJoin)
@@ -211,10 +206,12 @@ router.post('/food/add', rejectUnauthenticated, (req, res) => {
             })
             .catch((err) => {
               console.log('Error in making join', err);
+              res.sendStatus(500);
             });
         })
         .catch((err) => {
           console.log('Error adding Ingredients', err);
+          res.sendStatus(500);
         });
     })
     .catch((err) => {

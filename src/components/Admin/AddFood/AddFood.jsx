@@ -10,7 +10,7 @@ function AddFood() {
     dispatch({ type: 'ADMIN_FETCH_BRANDS' });
   }, []);
 
-  const brandList = useSelector((store) => store.admin.brandReducer);
+  const brandList = useSelector((store) => store.admin.brand);
 
   const [newBrand, setNewBrand] = useState('');
   const [newDesc, setNewDesc] = useState('');

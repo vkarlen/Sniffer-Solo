@@ -1,10 +1,4 @@
 function FoodRow({ food }) {
-  let ingredients = '';
-
-  for (const item of food.ingredients) {
-    ingredients += `${item}, `;
-  }
-
   return (
     <tr>
       <td>
@@ -12,7 +6,7 @@ function FoodRow({ food }) {
       </td>
       <td>{food.brand}</td>
       <td>{food.description}</td>
-      <td>{ingredients}</td>
+      <td>{food.ingredients.join(', ')}</td>
     </tr>
   );
 }

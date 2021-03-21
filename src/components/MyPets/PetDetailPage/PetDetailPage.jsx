@@ -36,7 +36,7 @@ function PetDetailPage() {
       <img src={petInfo.image_url} alt={petInfo.name} />
       <div>
         {/* Info will only render if it has been entered for this pet */}
-        {petInfo.age && <p>Age: {petInfo.age}</p>}
+        {petInfo.age && <p>Age: {petInfo.age} year(s)</p>}
 
         {petInfo.breed && <p>Breed: {petInfo.breed}</p>}
 

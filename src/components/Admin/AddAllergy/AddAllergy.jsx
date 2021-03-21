@@ -34,6 +34,7 @@ function AddAllergy() {
             type="text"
             value={newGroup}
             onChange={(evt) => setNewGroup(evt.target.value)}
+            required
           />
         </label>
 

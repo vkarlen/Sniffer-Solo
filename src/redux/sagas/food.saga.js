@@ -14,7 +14,7 @@ function* fetchSearch(action) {
   } catch (error) {
     console.log('Error in fetchSearch', error);
   }
-}
+} // end fetchSearch
 
 function* fetchAllergies() {
   try {
@@ -27,7 +27,7 @@ function* fetchAllergies() {
   } catch (error) {
     console.log('Error in fetchAllergies', error);
   }
-}
+} // end fetchAllergies
 
 function* foodSaga() {
   yield takeEvery('FETCH_SEARCH', fetchSearch);

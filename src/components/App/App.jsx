@@ -17,12 +17,13 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
-import MyPetsPage from '../MyPetsPage/MyPetsPage';
+import MyPetsPage from '../MyPets/MyPetsPage/MyPetsPage';
+import PetDetailPage from '../MyPets/PetDetailPage/PetDetailPage';
+import AddPet from '../MyPets/AddPet/AddPet';
+import EditPet from '../MyPets/EditPet/EditPet';
+
 import SearchPage from '../SearchPage/SearchPage';
 import ComparisonTool from '../ComparisonTool/ComparisonTool';
-import PetDetailPage from '../PetDetailPage/PetDetailPage';
-import AddPetPage from '../AddPetPage/AddPetPage';
-import EditPet from '../EditPet/EditPet';
 
 import AdminPortal from '../Admin/AdminPortal/AdminPortal';
 import AdminFoods from '../Admin/AdminFoods/AdminFoods';
@@ -64,6 +65,18 @@ function App() {
             <MyPetsPage />
           </ProtectedRoute>
 
+          <Route path="/pets/:id" exact>
+            <PetDetailPage />
+          </Route>
+
+          <ProtectedRoute exact path="/addapet">
+            <AddPet />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/edit">
+            <EditPet />
+          </ProtectedRoute>
+
           <ProtectedRoute exact path="/search">
             <SearchPage />
           </ProtectedRoute>
@@ -72,19 +85,7 @@ function App() {
             <ComparisonTool />
           </ProtectedRoute>
 
-          <Route path="/pets/:id" exact>
-            <PetDetailPage />
-          </Route>
-
-          <ProtectedRoute exact path="/addapet">
-            <AddPetPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute exact path="/edit">
-            <EditPet />
-          </ProtectedRoute>
-
-          {/*** ADMIN ROUTES ***/}
+          {/*** ADMIN ONLY ***/}
           {user.authLevel === 'ADMIN' && (
             <>
               <ProtectedRoute exact path="/admin">

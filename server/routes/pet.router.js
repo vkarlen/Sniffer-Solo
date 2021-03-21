@@ -42,7 +42,6 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 
 /*** POST ROUTES ***/
 router.post('/add', rejectUnauthenticated, (req, res) => {
-  console.log('in /add', req.body);
   const pet = req.body;
 
   const petSql = `INSERT INTO "pets" ("name", "owner_id", "image_url", "age", "breed")
@@ -52,7 +51,6 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
   pool
     .query(petSql, [pet.name, req.user.id, pet.picture, pet.age, pet.breed])
     .then((dbRes) => {
-      console.log('made it here');
       const petID = dbRes.rows[0].id;
 
       if (pet.allergies.length > 0) {
@@ -68,20 +66,18 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
           );
 
           // Add comma to all lines except the last
+          //  Add ; to last line
           if (i !== pet.allergies.length) {
             allergySql = allergySql.concat(`,
           `);
           } else {
             allergySql = allergySql.concat(`;`);
           }
-
-          console.log(allergySql);
         }
 
         pool
           .query(allergySql, pet.allergies)
           .then((dbRes) => {
-            console.log('We did it!');
             res.sendStatus(200);
           })
           .catch((err) => {
@@ -138,6 +134,7 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
         );
 
         // Add comma to all lines except the last
+        //  Add closure to last line
         if (i !== pet.allergies.length) {
           sqlDelete = sqlDelete.concat(`, `);
         } else {
@@ -162,6 +159,7 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
               );
 
               // Add comma to all lines except the last
+              //  Add closure to last line
               if (i !== pet.allergies.length) {
                 sqlInsert = sqlInsert.concat(`, `);
               } else {
@@ -189,6 +187,7 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
         })
         .catch((err) => {
           console.log('Error in edit delete', err);
+          res.sendStatus(500);
         });
     })
     .catch((err) => {

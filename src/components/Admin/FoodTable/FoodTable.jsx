@@ -3,8 +3,6 @@ import { useEffect } from 'react';
 
 import FoodRow from '../FoodRow/FoodRow';
 
-import './FoodTable.css';
-
 function FoodTable() {
   const dispatch = useDispatch();
 
@@ -12,7 +10,7 @@ function FoodTable() {
     dispatch({ type: 'ADMIN_FETCH_FOOD' });
   }, []);
 
-  const foodList = useSelector((store) => store.admin.foodReducer);
+  const foodList = useSelector((store) => store.admin.food);
 
   return (
     <div>

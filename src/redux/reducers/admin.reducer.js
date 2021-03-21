@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 /*** ---- REDUCERS ---- ***/
-const brandReducer = (state = ['None'], action) => {
+const brand = (state = ['None'], action) => {
   switch (action.type) {
     case 'ADMIN_SET_BRANDS':
       return action.payload;
@@ -10,7 +10,7 @@ const brandReducer = (state = ['None'], action) => {
   }
 };
 
-const ingredientReducer = (state = [], action) => {
+const ingredient = (state = [], action) => {
   switch (action.type) {
     case 'ADMIN_SET_INGREDIENTS':
       return action.payload;
@@ -19,7 +19,7 @@ const ingredientReducer = (state = [], action) => {
   }
 };
 
-const allergyReducer = (state = [], action) => {
+const allergy = (state = [], action) => {
   switch (action.type) {
     case 'ADMIN_SET_ALLERGY_LIST':
       return action.payload;
@@ -28,7 +28,7 @@ const allergyReducer = (state = [], action) => {
   }
 };
 
-const foodReducer = (state = [], action) => {
+const food = (state = [], action) => {
   switch (action.type) {
     case 'ADMIN_SET_FOOD_LIST':
       return action.payload;
@@ -38,8 +38,8 @@ const foodReducer = (state = [], action) => {
 };
 
 export default combineReducers({
-  brandReducer,
-  ingredientReducer,
-  allergyReducer,
-  foodReducer,
+  brand,
+  ingredient,
+  allergy,
+  food,
 });

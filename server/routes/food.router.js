@@ -9,40 +9,40 @@ router.get('/search', (req, res) => {
 
   let sqlQuery = `
   SELECT 
-	"foods".id,
-	"brands".name,
-	"foods".description,
-	"foods".image,
-	"allergy_lists".list
-FROM "foods"
-JOIN (SELECT 
-			"foods_ingredients".food_id, 
-			ARRAY_AGG("ingredients".allergy_id )
-				FILTER (WHERE "ingredients".allergy_id > '1')
-				AS list
-		FROM "foods_ingredients"
-		JOIN "ingredients" 
-			ON "ingredients".id = "foods_ingredients".ingredients_id
-		GROUP BY "foods_ingredients".food_id
-		ORDER BY "foods_ingredients".food_id) AS allergy_lists
-	ON "foods".id = "allergy_lists".food_id
-JOIN "brands"
-	ON "brands".id = "foods".brand_id
-WHERE `;
+    "foods".id,
+    "brands".name,
+    "foods".description,
+    "foods".image,
+    "allergy_lists".list
+  FROM "foods"
+  JOIN (SELECT 
+        "foods_ingredients".food_id, 
+        ARRAY_AGG("ingredients".allergy_id )
+          FILTER (WHERE "ingredients".allergy_id > '1')
+          AS list
+      FROM "foods_ingredients"
+      JOIN "ingredients" 
+        ON "ingredients".id = "foods_ingredients".ingredients_id
+      GROUP BY "foods_ingredients".food_id
+      ORDER BY "foods_ingredients".food_id) AS allergy_lists
+    ON "foods".id = "allergy_lists".food_id
+  JOIN "brands"
+    ON "brands".id = "foods".brand_id
+  WHERE `;
 
   // For each ingredient on the list, add a placeholder
   for (let i = 1; i < allergyList.length + 1; i++) {
     sqlQuery = sqlQuery.concat(`NOT $${i} =ANY(list)`);
 
     // Add AND to all lines except the last
+    //  Add ; to last line
     if (i !== allergyList.length) {
       sqlQuery = sqlQuery.concat(`
           AND `);
+    } else {
+      sqlQuery = sqlQuery.concat(`;`);
     }
   }
-
-  // close query
-  sqlQuery = sqlQuery.concat(`;`);
 
   pool
     .query(sqlQuery, allergyList)
@@ -72,13 +72,6 @@ router.get('/allergy', (req, res) => {
       console.log('Error in db GET /allergy', err);
       res.sendStatus(500);
     });
-});
-
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-  // POST route code here
 });
 
 module.exports = router;

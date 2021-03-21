@@ -19,7 +19,7 @@ function AddPetPage() {
   }, []);
 
   const handleSubmit = () => {
-    // Make sure a name is entered
+    // Make sure a name is entered before sending data
     if (newName) {
       dispatch({
         type: 'ADD_PET',
@@ -32,12 +32,14 @@ function AddPetPage() {
         },
       });
 
+      // Clear inputs
       setNewName('');
       setNewPicture('');
       setNewAge('');
       setNewBreed('');
       setAllergyList([]);
 
+      // Send user back to the pets page
       history.push('/pets');
     }
   };
@@ -100,7 +102,7 @@ function AddPetPage() {
         {allergyList.map((allergy, index) => {
           return (
             <span key={index}>
-              {allergy}{' '}
+              {allergy}
               <button onClick={() => deleteAllergy(allergy)}>X</button>
             </span>
           );
