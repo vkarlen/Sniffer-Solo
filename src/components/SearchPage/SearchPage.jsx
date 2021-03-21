@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Modal } from '@material-ui/core';
+import { Dialog, Grid, Paper } from '@material-ui/core';
 
 import './SearchPage.css';
 
-import SearchDetail from '../SearchDetail/SearchDetail';
+import SearchDetail from '../SearchDetail/SearchDetails';
 
 // This has to exist out here or the search does not work
 let searchQuery = [];
@@ -55,7 +55,6 @@ function SearchPage() {
   }; // end handleOpen
 
   const handleClose = () => {
-    setClickedFood({});
     setOpen(false);
   }; // end handleClose
 
@@ -87,31 +86,33 @@ function SearchPage() {
         })}
       </div>
 
-      <div>
+      <Grid container spacing={2}>
         {searchResults !== 0 && (
           <>
             {searchResults.map((result) => {
               return (
-                <div key={result.id} className="searchResultBox">
-                  <img
-                    src={result.image}
-                    alt={result.description}
-                    className="searchImg"
-                    onClick={() => handleOpen(result)}
-                  />
-                  <p>
-                    {result.brand} {result.description}
-                  </p>
-                </div>
+                <Grid item xs={2} key={result.id}>
+                  <Paper className="searchResult">
+                    <img
+                      src={result.image}
+                      alt={result.description}
+                      className="searchImg"
+                      onClick={() => handleOpen(result)}
+                    />
+                    <p>
+                      {result.brand} {result.description}
+                    </p>
+                  </Paper>
+                </Grid>
               );
             })}
           </>
         )}
-      </div>
+      </Grid>
 
-      <Modal open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose}>
         <SearchDetail food={clickedFood} />
-      </Modal>
+      </Dialog>
     </div>
   );
 }

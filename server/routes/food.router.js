@@ -16,6 +16,7 @@ router.get('/search', (req, res) => {
     ARRAY_AGG(
       "ingredients".description 
       ORDER BY "foods_ingredients".id)
+      AS ingredientList
   FROM "foods"
   JOIN (SELECT 
         "foods_ingredients".food_id, 

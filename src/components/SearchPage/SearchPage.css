@@ -1,8 +1,10 @@
-.searchResultBox {
-  width: 200px;
-  border: 1px solid grey;
+.searchImg {
+  max-width: 220px;
+  height: 250px;
 }
 
-.searchImg {
-  width: 100%;
+.searchResult {
+  padding: 20px;
+  text-align: center;
+  height: 320px;
 }
