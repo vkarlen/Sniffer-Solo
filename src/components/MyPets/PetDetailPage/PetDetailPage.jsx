@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 import { Grid, Paper, Container } from '@material-ui/core';
 
 import './PetDetailPage.css';
+
+import FoodLog from '../FoodLog/FoodLog';
 
 function PetDetailPage() {
   const { id } = useParams();
@@ -63,6 +64,7 @@ function PetDetailPage() {
 
       <div>
         <h3>Food Log</h3>
+        <FoodLog petID={id} />
       </div>
     </Container>
   );

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function* fetchExact(action) {
   try {
-    const exactPet = yield axios.get(`/api/pet/${action.payload.id}`);
+    const exactPet = yield axios.get(`/api/pet/details/${action.payload.id}`);
 
     yield put({
       type: 'SET_EXACT_PET',
@@ -13,6 +13,19 @@ function* fetchExact(action) {
     console.log('Error in fetchExact', error);
   }
 } // end fetchExact
+
+function* fetchLog(action) {
+  try {
+    const foodlog = yield axios.get(`/api/pet/log/${action.payload}`);
+
+    yield put({
+      type: 'SET_LOG',
+      payload: foodlog.data,
+    });
+  } catch (error) {
+    console.log('Error fetching log', error);
+  }
+} // end fetchLog
 
 function* addPet(action) {
   try {
@@ -52,6 +65,7 @@ function* deletePet(action) {
 
 function* petSaga() {
   yield takeEvery('FETCH_EXACT_PET', fetchExact);
+  yield takeEvery('FETCH_LOG', fetchLog);
   yield takeEvery('ADD_PET', addPet);
   yield takeEvery('UPDATE_PET', updatePet);
   yield takeEvery('DELETE_PET', deletePet);

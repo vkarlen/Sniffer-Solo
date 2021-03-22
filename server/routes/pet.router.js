@@ -6,7 +6,7 @@ const {
 } = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
-router.get('/:id', rejectUnauthenticated, (req, res) => {
+router.get('/details/:id', rejectUnauthenticated, (req, res) => {
   const petID = req.params.id;
 
   const sqlQuery = `
@@ -37,6 +37,36 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log('Error in GET /api/pet/id');
+      res.sendStatus(500);
+    });
+});
+
+router.get('/log/:id', rejectUnauthenticated, (req, res) => {
+  const petID = req.params.id;
+  console.log('req params', req.params);
+
+  const sqlQuery = `
+  SELECT 
+    "food_log".id,
+    "brands".name,
+    "foods".description,
+    "food_log".rating,
+    "food_log".current
+  FROM "food_log"
+  JOIN "foods"
+    ON "foods".id = "food_log".food_id
+  JOIN "brands"
+    ON "brands".id = "foods".brand_id
+  WHERE "pet_id" = $1;`;
+
+  pool
+    .query(sqlQuery, [petID])
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in /log/id', err);
+      res.sendStatus(500);
     });
 });
 
