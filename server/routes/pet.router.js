@@ -265,4 +265,21 @@ router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.delete('/log/delete/:id', rejectUnauthenticated, (req, res) => {
+  const logID = req.params.id;
+
+  const sqlQuery = `DELETE FROM "food_log"
+  WHERE "food_log".id = $1;`;
+
+  pool
+    .query(sqlQuery, [logID])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in delete logs', err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

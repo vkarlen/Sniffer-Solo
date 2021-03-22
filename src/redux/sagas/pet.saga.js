@@ -59,6 +59,10 @@ function* updatePet(action) {
   }
 } // end updatePet
 
+function* updateCurrent(action) {
+  console.log(action.payload);
+} // end updateCurrent
+
 function* deletePet(action) {
   try {
     yield axios.delete(`/api/pet/delete/${action.payload}`);
@@ -69,7 +73,22 @@ function* deletePet(action) {
   } catch (error) {
     console.log('Error in deletePet', error);
   }
-}
+} // end deletePet
+
+function* deleteLog(action) {
+  console.log(action.payload);
+
+  try {
+    yield axios.delete(`/api/pet/log/delete/${action.payload.logID}`);
+
+    yield put({
+      type: 'FETCH_LOG',
+      payload: action.payload.petID,
+    });
+  } catch (error) {
+    console.log('Error in delete log', error);
+  }
+} // end deleteLog
 
 function* petSaga() {
   yield takeEvery('FETCH_EXACT_PET', fetchExact);
@@ -77,7 +96,9 @@ function* petSaga() {
   yield takeEvery('ADD_PET', addPet);
   yield takeEvery('ADD_TO_LOG', addToLog);
   yield takeEvery('UPDATE_PET', updatePet);
+  yield takeEvery('UPDATE_LOG_CURRENT', updateCurrent);
   yield takeEvery('DELETE_PET', deletePet);
+  yield takeEvery('DELETE_LOG', deleteLog);
 }
 
 export default petSaga;
