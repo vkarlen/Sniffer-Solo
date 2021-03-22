@@ -76,11 +76,13 @@ function SearchPage() {
         {searchQuery.map((item) => {
           return (
             <span key={item}>
-              {
-                allergies.find((allergy) => allergy.id === Number(item))
-                  .description
-              }
-              <button onClick={() => deleteFromQuery(item)}>X</button>
+              <button onClick={() => deleteFromQuery(item)}>
+                {
+                  allergies.find((allergy) => allergy.id === Number(item))
+                    .description
+                }
+                &nbsp; X
+              </button>
             </span>
           );
         })}
