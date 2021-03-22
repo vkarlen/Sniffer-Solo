@@ -127,18 +127,40 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
 
 router.post('/log/add', rejectUnauthenticated, (req, res) => {
   console.log(req.body);
-  const sqlQuery = `INSERT INTO "food_log" ("pet_id", "food_id")
-  VALUES ($1, $2)
-  RETURNING "id";`;
-  const sqlParams = [req.body.pet, req.body.foodID];
+  const sqlQuery = `INSERT INTO "food_log" ("food_id", "pet_id")
+  VALUES ($1, $2);`;
+  const sqlParams = [req.body.foodID, req.body.pet];
 
   pool
     .query(sqlQuery, sqlParams)
     .then((dbRes) => {
-      res.send(dbRes);
+      if (req.body.current) {
+        const sqlCurrent = `
+        UPDATE "food_log"
+        SET "current" = (
+          CASE
+            WHEN "food_id" = $1
+              THEN true
+            ELSE false 
+          END)
+        WHERE "pet_id" = $2;`;
+
+        pool
+          .query(sqlCurrent, sqlParams)
+          .then((dbRes) => {
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            console.log('Error updating current', err);
+            res.sendStatus(500);
+          });
+      } else {
+        res.sendStatus(200);
+      }
     })
     .catch((err) => {
       console.log('Error in /log/add', err);
+      res.sendStatus(500);
     });
 });
 
