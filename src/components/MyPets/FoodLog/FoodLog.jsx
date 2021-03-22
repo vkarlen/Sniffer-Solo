@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import { ThumbUpAlt, ThumbDownAlt, ThumbsUpDown } from '@material-ui/icons';
 
+import './FoodLog.css';
+
 function FoodLog({ petID }) {
   const dispatch = useDispatch();
 
@@ -26,9 +28,10 @@ function FoodLog({ petID }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>Current</TableCell>
-          <TableCell>Food</TableCell>
           <TableCell>Rating</TableCell>
+          <TableCell>Food</TableCell>
+          <TableCell>Mark Current</TableCell>
+          <TableCell>Delete</TableCell>
         </TableRow>
       </TableHead>
 
@@ -36,10 +39,6 @@ function FoodLog({ petID }) {
         {foodlog.map((food) => {
           return (
             <TableRow>
-              <TableCell></TableCell>
-              <TableCell>
-                {food.name} {food.description}
-              </TableCell>
               <TableCell align="center">
                 {food.rating === 'good' ? (
                   <ThumbUpAlt />
@@ -48,6 +47,21 @@ function FoodLog({ petID }) {
                 ) : (
                   <ThumbsUpDown />
                 )}
+              </TableCell>
+
+              <TableCell>
+                {food.current && (
+                  <span className="isCurrent">Current Food: </span>
+                )}
+                {food.name} {food.description}
+              </TableCell>
+
+              <TableCell>
+                <button>✓</button>
+              </TableCell>
+
+              <TableCell>
+                <button>X</button>
               </TableCell>
             </TableRow>
           );
