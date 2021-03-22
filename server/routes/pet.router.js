@@ -47,6 +47,7 @@ router.get('/log/:id', rejectUnauthenticated, (req, res) => {
   const sqlQuery = `
   SELECT 
     "food_log".id,
+    "foods".id AS foodid,
     "brands".name,
     "foods".description,
     "food_log".rating,

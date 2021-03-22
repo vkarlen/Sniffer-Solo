@@ -24,6 +24,14 @@ function FoodLog({ petID }) {
     });
   }, []);
 
+  const deleteLog = (id) => {
+    console.log('delete log');
+  }; // end deleteLog
+
+  const markCurrent = (foodID) => {
+    console.log('mark current');
+  }; // end markCurrent
+
   return (
     <Table>
       <TableHead>
@@ -36,13 +44,13 @@ function FoodLog({ petID }) {
       </TableHead>
 
       <TableBody>
-        {foodlog.map((food) => {
+        {foodlog.map((log) => {
           return (
-            <TableRow>
+            <TableRow key={log.id}>
               <TableCell align="center">
-                {food.rating === 'good' ? (
+                {log.rating === 'good' ? (
                   <ThumbUpAlt />
-                ) : food.rating === 'bad' ? (
+                ) : log.rating === 'bad' ? (
                   <ThumbDownAlt />
                 ) : (
                   <ThumbsUpDown />
@@ -50,18 +58,18 @@ function FoodLog({ petID }) {
               </TableCell>
 
               <TableCell>
-                {food.current && (
+                {log.current && (
                   <span className="isCurrent">Current Food: </span>
                 )}
-                {food.name} {food.description}
+                {log.name} {log.description}
               </TableCell>
 
               <TableCell>
-                <button>✓</button>
+                <button onClick={() => markCurrent(log.foodid)}>✓</button>
               </TableCell>
 
               <TableCell>
-                <button>X</button>
+                <button onClick={() => deleteLog(log.id)}>X</button>
               </TableCell>
             </TableRow>
           );

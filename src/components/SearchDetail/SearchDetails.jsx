@@ -14,12 +14,13 @@ function SearchDetail({ food }) {
 
   const [pet, setPet] = useState('');
 
-  const addToLog = (foodID) => {
+  const addToLog = (foodID, current) => {
     dispatch({
       type: 'ADD_TO_LOG',
       payload: {
         pet,
         foodID,
+        current,
       },
     });
     // Add success alert with option to go to pet page on click
@@ -53,9 +54,9 @@ function SearchDetail({ food }) {
           })}
         </select>
 
-        <button>Try Food</button>
+        <button onClick={() => addToLog(food.id, true)}>Try Food</button>
 
-        <button onClick={() => addToLog(food.id)}>Add to Log</button>
+        <button onClick={() => addToLog(food.id, false)}>Add to Log</button>
       </DialogActions>
     </div>
   );
