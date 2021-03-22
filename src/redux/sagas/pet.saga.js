@@ -60,7 +60,16 @@ function* updatePet(action) {
 } // end updatePet
 
 function* updateCurrent(action) {
-  console.log(action.payload);
+  try {
+    yield axios.put(`/api/pet/log/setcurrent`, action.payload);
+
+    yield put({
+      type: 'FETCH_LOG',
+      payload: action.payload.petID,
+    });
+  } catch (error) {
+    console.log('Error in updateCurrent', error);
+  }
 } // end updateCurrent
 
 function* deletePet(action) {
@@ -76,8 +85,6 @@ function* deletePet(action) {
 } // end deletePet
 
 function* deleteLog(action) {
-  console.log(action.payload);
-
   try {
     yield axios.delete(`/api/pet/log/delete/${action.payload.logID}`);
 

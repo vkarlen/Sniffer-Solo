@@ -25,8 +25,6 @@ function FoodLog({ petID }) {
   }, []);
 
   const deleteLog = (logID) => {
-    console.log('delete log');
-
     dispatch({
       type: 'DELETE_LOG',
       payload: { logID, petID },
@@ -34,11 +32,9 @@ function FoodLog({ petID }) {
   }; // end deleteLog
 
   const markCurrent = (foodID) => {
-    console.log('mark current');
-
     dispatch({
       type: 'UPDATE_LOG_CURRENT',
-      payload: foodID,
+      payload: { foodID, petID },
     });
   }; // end markCurrent
 

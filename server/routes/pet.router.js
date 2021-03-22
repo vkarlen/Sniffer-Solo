@@ -244,6 +244,30 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put('/log/setcurrent', rejectUnauthenticated, (req, res) => {
+  console.log(req.body);
+
+  const sqlQuery = `UPDATE "food_log"
+  SET "current" = (
+    CASE
+      WHEN "food_id" = $1
+        THEN true
+      ELSE false 
+    END)
+  WHERE "pet_id" = $2;`;
+  const sqlParams = [req.body.foodID, req.body.petID];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in /log/setcurrent');
+      res.sendStatus(500);
+    });
+});
+
 /*** DELETE ROUTES ***/
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   const petID = req.params.id;
