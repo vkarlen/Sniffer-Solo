@@ -22,7 +22,6 @@ function SearchDetail({ food }) {
         foodID,
       },
     });
-
     // Add success alert with option to go to pet page on click
   };
 

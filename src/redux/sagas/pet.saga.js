@@ -42,14 +42,10 @@ function* addPet(action) {
 function* addToLog(action) {
   try {
     yield axios.post('/api/pet/log/add', action.payload);
-
-    yield put({
-      type: 'FETCH_LOG',
-    });
   } catch (error) {
     console.log('Error adding to log', error);
   }
-}
+} // end addToLog
 
 function* updatePet(action) {
   try {

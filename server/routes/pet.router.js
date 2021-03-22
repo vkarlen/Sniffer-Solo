@@ -56,7 +56,8 @@ router.get('/log/:id', rejectUnauthenticated, (req, res) => {
     ON "foods".id = "food_log".food_id
   JOIN "brands"
     ON "brands".id = "foods".brand_id
-  WHERE "pet_id" = $1;`;
+  WHERE "pet_id" = $1
+  ORDER BY "food_log".current DESC, "brands".name, "foods".description;`;
 
   pool
     .query(sqlQuery, [petID])
@@ -126,13 +127,14 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
 router.post('/log/add', rejectUnauthenticated, (req, res) => {
   console.log(req.body);
   const sqlQuery = `INSERT INTO "food_log" ("pet_id", "food_id")
-  VALUES ($1, $2);`;
+  VALUES ($1, $2)
+  RETURNING "id";`;
   const sqlParams = [req.body.pet, req.body.foodID];
 
   pool
     .query(sqlQuery, sqlParams)
     .then((dbRes) => {
-      res.sendStatus(200);
+      res.send(dbRes);
     })
     .catch((err) => {
       console.log('Error in /log/add', err);
