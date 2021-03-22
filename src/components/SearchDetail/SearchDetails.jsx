@@ -13,6 +13,7 @@ function SearchDetail({ food }) {
   const pets = useSelector((store) => store.user.userPets);
 
   const [pet, setPet] = useState('');
+  const [edit, setEdit] = useState(false);
 
   const addToLog = (foodID, current) => {
     dispatch({
@@ -25,7 +26,6 @@ function SearchDetail({ food }) {
     });
     // Add success alert with option to go to pet page on click
   };
-
   return (
     <div id="detailContainer">
       <DialogContent>

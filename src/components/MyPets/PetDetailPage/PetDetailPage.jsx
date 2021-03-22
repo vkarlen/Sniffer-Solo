@@ -15,6 +15,7 @@ function PetDetailPage() {
   const history = useHistory();
 
   const petInfo = useSelector((store) => store.pet.petDetail);
+  const user = useSelector((store) => store.user.userInfo);
 
   useEffect(() => {
     dispatch({
@@ -44,7 +45,10 @@ function PetDetailPage() {
         </Grid>
         <Grid item xs={7}>
           <h2>{petInfo.name}</h2>
-          <button onClick={() => handleEdit(petInfo)}>+ edit</button>
+          {/* Only render edit button for owner */}
+          {user.id == petInfo.owner_id && (
+            <button onClick={() => handleEdit(petInfo)}>+ edit</button>
+          )}
 
           <Paper className="infoContainer">
             {/* Info will only render if it has been entered for this pet */}
@@ -64,7 +68,7 @@ function PetDetailPage() {
 
       <div>
         <h3>Food Log</h3>
-        <FoodLog petID={id} />
+        <FoodLog petID={id} user={user} />
       </div>
     </Container>
   );

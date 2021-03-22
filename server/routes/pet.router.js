@@ -16,6 +16,7 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     "pets".image_url, 
     "pets".breed,
     "pets".age,
+    "pets".owner_id,
     ARRAY_AGG("allergies".description)
       AS allergies
   FROM "pets_allergies"
@@ -28,7 +29,8 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     "pets".id, 
     "pets".name, 
     "pets".image_url, 
-    "pets".breed;`;
+    "pets".breed,
+    "pets".owner_id;`;
 
   pool
     .query(sqlQuery, [petID])
