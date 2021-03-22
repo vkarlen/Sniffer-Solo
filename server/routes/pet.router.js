@@ -267,8 +267,6 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
 });
 
 router.put('/log/setcurrent', rejectUnauthenticated, (req, res) => {
-  console.log(req.body);
-
   const sqlQuery = `UPDATE "food_log"
   SET "current" = (
     CASE
@@ -286,6 +284,30 @@ router.put('/log/setcurrent', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log('Error in /log/setcurrent');
+      res.sendStatus(500);
+    });
+});
+
+router.put('/log/rating', rejectUnauthenticated, (req, res) => {
+  const sqlQuery = `UPDATE "food_log"
+  SET "rating" = (
+    CASE
+      WHEN "rating" = 'neutral'
+        THEN 'good'::rating
+      WHEN "rating" = 'good'
+        THEN 'bad'::rating
+      ELSE 'neutral'::rating
+    END)
+  WHERE "pet_id" = $1 AND "food_id" = $2;`;
+  const sqlParams = [req.body.petID, req.body.foodID];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in /log/rating', error);
       res.sendStatus(500);
     });
 });

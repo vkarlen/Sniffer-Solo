@@ -7,6 +7,7 @@ import {
   TableHead,
   TableCell,
   TableRow,
+  IconButton,
 } from '@material-ui/core';
 import { ThumbUpAlt, ThumbDownAlt, ThumbsUpDown } from '@material-ui/icons';
 
@@ -38,6 +39,13 @@ function FoodLog({ petID }) {
     });
   }; // end markCurrent
 
+  const updateRating = (foodID) => {
+    dispatch({
+      type: 'UPDATE_LOG_RATING',
+      payload: { foodID, petID },
+    });
+  };
+
   return (
     <Table>
       <TableHead>
@@ -53,14 +61,19 @@ function FoodLog({ petID }) {
         {foodlog.map((log) => {
           return (
             <TableRow key={log.id}>
-              <TableCell align="center">
-                {log.rating === 'good' ? (
-                  <ThumbUpAlt />
-                ) : log.rating === 'bad' ? (
-                  <ThumbDownAlt />
-                ) : (
-                  <ThumbsUpDown />
-                )}
+              <TableCell
+                align="center"
+                // onClick={() => updateRating(log.foodid)}
+              >
+                <IconButton onClick={() => updateRating(log.foodid)}>
+                  {log.rating === 'good' ? (
+                    <ThumbUpAlt />
+                  ) : log.rating === 'bad' ? (
+                    <ThumbDownAlt />
+                  ) : (
+                    <ThumbsUpDown />
+                  )}
+                </IconButton>
               </TableCell>
 
               <TableCell>

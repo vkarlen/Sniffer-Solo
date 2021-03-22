@@ -72,6 +72,19 @@ function* updateCurrent(action) {
   }
 } // end updateCurrent
 
+function* updateRating(action) {
+  try {
+    yield axios.put(`/api/pet/log/rating`, action.payload);
+
+    yield put({
+      type: 'FETCH_LOG',
+      payload: action.payload.petID,
+    });
+  } catch (error) {
+    console.log('Error in updateRating', error);
+  }
+}
+
 function* deletePet(action) {
   try {
     yield axios.delete(`/api/pet/delete/${action.payload}`);
@@ -104,6 +117,7 @@ function* petSaga() {
   yield takeEvery('ADD_TO_LOG', addToLog);
   yield takeEvery('UPDATE_PET', updatePet);
   yield takeEvery('UPDATE_LOG_CURRENT', updateCurrent);
+  yield takeEvery('UPDATE_LOG_RATING', updateRating);
   yield takeEvery('DELETE_PET', deletePet);
   yield takeEvery('DELETE_LOG', deleteLog);
 }
