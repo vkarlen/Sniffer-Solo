@@ -39,6 +39,18 @@ function* addPet(action) {
   }
 } // end addPet
 
+function* addToLog(action) {
+  try {
+    yield axios.post('/api/pet/log/add', action.payload);
+
+    yield put({
+      type: 'FETCH_LOG',
+    });
+  } catch (error) {
+    console.log('Error adding to log', error);
+  }
+}
+
 function* updatePet(action) {
   try {
     yield axios.put(`/api/pet/edit/${action.payload.id}`, action.payload);
@@ -67,6 +79,7 @@ function* petSaga() {
   yield takeEvery('FETCH_EXACT_PET', fetchExact);
   yield takeEvery('FETCH_LOG', fetchLog);
   yield takeEvery('ADD_PET', addPet);
+  yield takeEvery('ADD_TO_LOG', addToLog);
   yield takeEvery('UPDATE_PET', updatePet);
   yield takeEvery('DELETE_PET', deletePet);
 }

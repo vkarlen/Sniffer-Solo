@@ -1,12 +1,30 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 import { DialogContent, DialogActions } from '@material-ui/core';
 
 import './SearchDetails.css';
 
 function SearchDetail({ food }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const pets = useSelector((store) => store.user.userPets);
+
+  const [pet, setPet] = useState('');
+
+  const addToLog = (foodID) => {
+    dispatch({
+      type: 'ADD_TO_LOG',
+      payload: {
+        pet,
+        foodID,
+      },
+    });
+
+    // Add success alert with option to go to pet page on click
+  };
 
   return (
     <div id="detailContainer">
@@ -19,15 +37,26 @@ function SearchDetail({ food }) {
       </DialogContent>
 
       <DialogActions>
-        <select>
+        <select
+          defaultValue="SELECT"
+          onChange={(evt) => {
+            setPet(evt.target.value);
+          }}
+        >
+          <option hidden>SELECT</option>
+
           {pets.map((pet) => {
-            return <option key={pet.id}>{pet.name}</option>;
+            return (
+              <option key={pet.id} value={pet.id}>
+                {pet.name}
+              </option>
+            );
           })}
         </select>
 
-        <button>Set as Current</button>
+        <button>Try Food</button>
 
-        <button>Add to Log</button>
+        <button onClick={() => addToLog(food.id)}>Add to Log</button>
       </DialogActions>
     </div>
   );

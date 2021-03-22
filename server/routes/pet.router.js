@@ -123,6 +123,22 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/log/add', rejectUnauthenticated, (req, res) => {
+  console.log(req.body);
+  const sqlQuery = `INSERT INTO "food_log" ("pet_id", "food_id")
+  VALUES ($1, $2);`;
+  const sqlParams = [req.body.pet, req.body.foodID];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in /log/add', err);
+    });
+});
+
 /*** PUT ROUTES ***/
 router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
   const userId = req.user.id;
