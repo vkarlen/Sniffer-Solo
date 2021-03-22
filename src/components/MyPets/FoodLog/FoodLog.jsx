@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Table,
@@ -13,88 +13,113 @@ import { ThumbUpAlt, ThumbDownAlt, ThumbsUpDown } from '@material-ui/icons';
 
 import './FoodLog.css';
 
-function FoodLog({ petID }) {
+function FoodLog({ pet, user }) {
   const dispatch = useDispatch();
 
   const foodlog = useSelector((store) => store.pet.foodlog);
 
+  const [edit, setEdit] = useState(false);
+
   useEffect(() => {
     dispatch({
       type: 'FETCH_LOG',
-      payload: petID,
+      payload: pet.id,
     });
   }, []);
 
   const deleteLog = (logID) => {
-    dispatch({
-      type: 'DELETE_LOG',
-      payload: { logID, petID },
-    });
+    if (user.id === pet.owner_id) {
+      dispatch({
+        type: 'DELETE_LOG',
+        payload: { logID: logID, petID: pet.id },
+      });
+    }
   }; // end deleteLog
 
   const markCurrent = (foodID) => {
-    dispatch({
-      type: 'UPDATE_LOG_CURRENT',
-      payload: { foodID, petID },
-    });
+    if (user.id === pet.owner_id) {
+      dispatch({
+        type: 'UPDATE_LOG_CURRENT',
+        payload: { foodID: foodID, petID: pet.id },
+      });
+    }
   }; // end markCurrent
 
   const updateRating = (foodID) => {
-    dispatch({
-      type: 'UPDATE_LOG_RATING',
-      payload: { foodID, petID },
-    });
+    if (user.id === pet.owner_id) {
+      dispatch({
+        type: 'UPDATE_LOG_RATING',
+        payload: { foodID: foodID, petID: pet.id },
+      });
+    }
   };
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Rating</TableCell>
-          <TableCell>Food</TableCell>
-          <TableCell>Mark Current</TableCell>
-          <TableCell>Delete</TableCell>
-        </TableRow>
-      </TableHead>
+    <div>
+      <h3>Food Log</h3>
+      {user.id === pet.owner_id && (
+        <button
+          onClick={() => {
+            setEdit(!edit);
+          }}
+        >
+          + edit
+        </button>
+      )}
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Rating</TableCell>
+            <TableCell>Food</TableCell>
+            {edit && (
+              <>
+                <TableCell>Mark Current</TableCell>
+                <TableCell>Delete</TableCell>
+              </>
+            )}
+          </TableRow>
+        </TableHead>
 
-      <TableBody>
-        {foodlog.map((log) => {
-          return (
-            <TableRow key={log.id}>
-              <TableCell
-                align="center"
-                // onClick={() => updateRating(log.foodid)}
-              >
-                <IconButton onClick={() => updateRating(log.foodid)}>
-                  {log.rating === 'good' ? (
-                    <ThumbUpAlt />
-                  ) : log.rating === 'bad' ? (
-                    <ThumbDownAlt />
-                  ) : (
-                    <ThumbsUpDown />
+        <TableBody>
+          {foodlog.map((log) => {
+            return (
+              <TableRow key={log.id}>
+                <TableCell align="center">
+                  <IconButton onClick={() => updateRating(log.foodid)}>
+                    {log.rating === 'good' ? (
+                      <ThumbUpAlt />
+                    ) : log.rating === 'bad' ? (
+                      <ThumbDownAlt />
+                    ) : (
+                      <ThumbsUpDown />
+                    )}
+                  </IconButton>
+                </TableCell>
+
+                <TableCell>
+                  {log.current && (
+                    <span className="isCurrent">Current Food: </span>
                   )}
-                </IconButton>
-              </TableCell>
+                  {log.name} {log.description}
+                </TableCell>
 
-              <TableCell>
-                {log.current && (
-                  <span className="isCurrent">Current Food: </span>
+                {edit && (
+                  <>
+                    <TableCell>
+                      <button onClick={() => markCurrent(log.foodid)}>✓</button>
+                    </TableCell>
+
+                    <TableCell>
+                      <button onClick={() => deleteLog(log.id)}>X</button>
+                    </TableCell>
+                  </>
                 )}
-                {log.name} {log.description}
-              </TableCell>
-
-              <TableCell>
-                <button onClick={() => markCurrent(log.foodid)}>✓</button>
-              </TableCell>
-
-              <TableCell>
-                <button onClick={() => deleteLog(log.id)}>X</button>
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
 

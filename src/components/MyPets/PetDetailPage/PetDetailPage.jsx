@@ -67,8 +67,8 @@ function PetDetailPage() {
       </Grid>
 
       <div>
-        <h3>Food Log</h3>
-        <FoodLog petID={id} user={user} />
+        {/* Wait until pet info has loaded in to load foodlog */}
+        {petInfo.id && <FoodLog pet={petInfo} user={user} />}
       </div>
     </Container>
   );

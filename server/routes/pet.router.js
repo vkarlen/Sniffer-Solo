@@ -43,7 +43,7 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.get('/log/:id', rejectUnauthenticated, (req, res) => {
+router.get('/log/:id', (req, res) => {
   const petID = req.params.id;
 
   const sqlQuery = `
