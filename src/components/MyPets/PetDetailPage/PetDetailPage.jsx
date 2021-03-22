@@ -18,6 +18,11 @@ function PetDetailPage() {
   const user = useSelector((store) => store.user.userInfo);
 
   useEffect(() => {
+    // Clear previous pet info
+    dispatch({
+      type: 'CLEAR_PET',
+    });
+
     dispatch({
       type: 'FETCH_EXACT_PET',
       payload: { id },
