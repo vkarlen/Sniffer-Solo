@@ -1,0 +1,11 @@
+.petCard {
+  padding: 15px;
+  text-align: center;
+  height: 280px;
+}
+
+.petImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
