@@ -102,8 +102,9 @@ function AddPetPage() {
         {allergyList.map((allergy, index) => {
           return (
             <span key={index}>
-              {allergy}
-              <button onClick={() => deleteAllergy(allergy)}>X</button>
+              <button onClick={() => deleteAllergy(allergy)}>
+                {allergy} &nbsp; X
+              </button>
             </span>
           );
         })}

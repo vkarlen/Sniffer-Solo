@@ -3,7 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Dialog, Grid, Paper, Container } from '@material-ui/core';
+
 import './SearchPage.css';
+
+import SearchDetail from '../SearchDetail/SearchDetails';
 
 // This has to exist out here or the search does not work
 let searchQuery = [];
@@ -13,6 +17,9 @@ function SearchPage() {
 
   const searchResults = useSelector((store) => store.food.search);
   const allergies = useSelector((store) => store.food.allergy);
+
+  const [open, setOpen] = useState(false);
+  const [clickedFood, setClickedFood] = useState({});
 
   useEffect(() => {
     searchQuery = [];
@@ -42,8 +49,17 @@ function SearchPage() {
     }
   }; // end deleteFromQuery
 
+  const handleOpen = (food) => {
+    setClickedFood(food);
+    setOpen(true);
+  }; // end handleOpen
+
+  const handleClose = () => {
+    setOpen(false);
+  }; // end handleClose
+
   return (
-    <div>
+    <Container maxWidth="md">
       <h2>Search Tool</h2>
       <div>
         <select defaultValue="ADD" onChange={addToQuery}>
@@ -60,37 +76,46 @@ function SearchPage() {
         {searchQuery.map((item) => {
           return (
             <span key={item}>
-              {
-                allergies.find((allergy) => allergy.id === Number(item))
-                  .description
-              }
-              <button onClick={() => deleteFromQuery(item)}>X</button>
+              <button onClick={() => deleteFromQuery(item)}>
+                {
+                  allergies.find((allergy) => allergy.id === Number(item))
+                    .description
+                }
+                &nbsp; X
+              </button>
             </span>
           );
         })}
       </div>
 
-      <div>
+      <Grid container spacing={2}>
         {searchResults !== 0 && (
           <>
             {searchResults.map((result) => {
               return (
-                <div key={result.id} className="searchResultBox">
-                  <img
-                    src={result.image}
-                    alt={result.description}
-                    className="searchImg"
-                  />
-                  <p>
-                    {result.brand} {result.description}
-                  </p>
-                </div>
+                <Grid item xs={6} md={3} key={result.id}>
+                  <Paper className="searchResult">
+                    <img
+                      src={result.image}
+                      alt={result.description}
+                      className="searchImg"
+                      onClick={() => handleOpen(result)}
+                    />
+                    <p>
+                      {result.brand} {result.description}
+                    </p>
+                  </Paper>
+                </Grid>
               );
             })}
           </>
         )}
-      </div>
-    </div>
+      </Grid>
+
+      <Dialog open={open} onClose={handleClose}>
+        <SearchDetail food={clickedFood} />
+      </Dialog>
+    </Container>
   );
 }
 

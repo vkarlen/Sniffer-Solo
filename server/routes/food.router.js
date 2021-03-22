@@ -13,7 +13,10 @@ router.get('/search', (req, res) => {
     "brands".name,
     "foods".description,
     "foods".image,
-    "allergy_lists".list
+    ARRAY_AGG(
+      "ingredients".description 
+      ORDER BY "foods_ingredients".id)
+      AS ingredientList
   FROM "foods"
   JOIN (SELECT 
         "foods_ingredients".food_id, 
@@ -28,6 +31,10 @@ router.get('/search', (req, res) => {
     ON "foods".id = "allergy_lists".food_id
   JOIN "brands"
     ON "brands".id = "foods".brand_id
+  JOIN "foods_ingredients"
+    ON "foods_ingredients".food_id = "foods".id
+  JOIN "ingredients"
+    ON "foods_ingredients".ingredients_id = "ingredients".id
   WHERE `;
 
   // For each ingredient on the list, add a placeholder
@@ -40,7 +47,12 @@ router.get('/search', (req, res) => {
       sqlQuery = sqlQuery.concat(`
           AND `);
     } else {
-      sqlQuery = sqlQuery.concat(`;`);
+      sqlQuery = sqlQuery.concat(`
+      GROUP BY
+        "foods".id,
+        "brands".name,
+        "foods".description,
+        "foods".image;`);
     }
   }
 
