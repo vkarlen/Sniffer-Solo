@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Dialog, Grid, Paper } from '@material-ui/core';
+import { Dialog, Grid, Paper, Container } from '@material-ui/core';
 
 import './SearchPage.css';
 
@@ -59,7 +59,7 @@ function SearchPage() {
   }; // end handleClose
 
   return (
-    <div>
+    <Container maxWidth="md">
       <h2>Search Tool</h2>
       <div>
         <select defaultValue="ADD" onChange={addToQuery}>
@@ -91,7 +91,7 @@ function SearchPage() {
           <>
             {searchResults.map((result) => {
               return (
-                <Grid item xs={2} key={result.id}>
+                <Grid item xs={6} md={3} key={result.id}>
                   <Paper className="searchResult">
                     <img
                       src={result.image}
@@ -113,7 +113,7 @@ function SearchPage() {
       <Dialog open={open} onClose={handleClose}>
         <SearchDetail food={clickedFood} />
       </Dialog>
-    </div>
+    </Container>
   );
 }
 
