@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -8,14 +7,22 @@ import { Grid, Paper, Container } from '@material-ui/core';
 
 import './PetDetailPage.css';
 
+import FoodLog from '../FoodLog/FoodLog';
+
 function PetDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const petInfo = useSelector((store) => store.pet.petDetail);
+  const user = useSelector((store) => store.user.userInfo);
 
   useEffect(() => {
+    // Clear previous pet info
+    dispatch({
+      type: 'CLEAR_PET',
+    });
+
     dispatch({
       type: 'FETCH_EXACT_PET',
       payload: { id },
@@ -43,7 +50,10 @@ function PetDetailPage() {
         </Grid>
         <Grid item xs={7}>
           <h2>{petInfo.name}</h2>
-          <button onClick={() => handleEdit(petInfo)}>+ edit</button>
+          {/* Only render edit button for owner */}
+          {user.id == petInfo.owner_id && (
+            <button onClick={() => handleEdit(petInfo)}>+ edit</button>
+          )}
 
           <Paper className="infoContainer">
             {/* Info will only render if it has been entered for this pet */}
@@ -62,7 +72,8 @@ function PetDetailPage() {
       </Grid>
 
       <div>
-        <h3>Food Log</h3>
+        {/* Wait until pet info has loaded in to load foodlog */}
+        {petInfo.id && <FoodLog pet={petInfo} user={user} />}
       </div>
     </Container>
   );

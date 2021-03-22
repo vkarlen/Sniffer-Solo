@@ -19,6 +19,17 @@ const petDetail = (state = defaultPet, action) => {
   }
 };
 
+const foodlog = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_LOG':
+      return action.payload;
+    case 'CLEAR_PET':
+      return [];
+    default:
+      return state;
+  }
+};
+
 const editPet = (state = defaultPet, action) => {
   switch (action.type) {
     case 'SET_EDIT_PET':
@@ -37,5 +48,6 @@ const editPet = (state = defaultPet, action) => {
 
 export default combineReducers({
   petDetail,
+  foodlog,
   editPet,
 });

@@ -6,7 +6,7 @@ const {
 } = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
-router.get('/:id', rejectUnauthenticated, (req, res) => {
+router.get('/details/:id', rejectUnauthenticated, (req, res) => {
   const petID = req.params.id;
 
   const sqlQuery = `
@@ -16,6 +16,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     "pets".image_url, 
     "pets".breed,
     "pets".age,
+    "pets".owner_id,
     ARRAY_AGG("allergies".description)
       AS allergies
   FROM "pets_allergies"
@@ -28,7 +29,8 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     "pets".id, 
     "pets".name, 
     "pets".image_url, 
-    "pets".breed;`;
+    "pets".breed,
+    "pets".owner_id;`;
 
   pool
     .query(sqlQuery, [petID])
@@ -37,6 +39,37 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log('Error in GET /api/pet/id');
+      res.sendStatus(500);
+    });
+});
+
+router.get('/log/:id', (req, res) => {
+  const petID = req.params.id;
+
+  const sqlQuery = `
+  SELECT 
+    "food_log".id,
+    "foods".id AS foodid,
+    "brands".name,
+    "foods".description,
+    "food_log".rating,
+    "food_log".current
+  FROM "food_log"
+  JOIN "foods"
+    ON "foods".id = "food_log".food_id
+  JOIN "brands"
+    ON "brands".id = "foods".brand_id
+  WHERE "pet_id" = $1
+  ORDER BY "food_log".current DESC, "brands".name, "foods".description;`;
+
+  pool
+    .query(sqlQuery, [petID])
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in /log/id', err);
+      res.sendStatus(500);
     });
 });
 
@@ -90,6 +123,45 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log('Error in /add', error);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/log/add', rejectUnauthenticated, (req, res) => {
+  console.log(req.body);
+  const sqlQuery = `INSERT INTO "food_log" ("food_id", "pet_id")
+  VALUES ($1, $2);`;
+  const sqlParams = [req.body.foodID, req.body.pet];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      if (req.body.current) {
+        const sqlCurrent = `
+        UPDATE "food_log"
+        SET "current" = (
+          CASE
+            WHEN "food_id" = $1
+              THEN true
+            ELSE false 
+          END)
+        WHERE "pet_id" = $2;`;
+
+        pool
+          .query(sqlCurrent, sqlParams)
+          .then((dbRes) => {
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            console.log('Error updating current', err);
+            res.sendStatus(500);
+          });
+      } else {
+        res.sendStatus(200);
+      }
+    })
+    .catch((err) => {
+      console.log('Error in /log/add', err);
       res.sendStatus(500);
     });
 });
@@ -196,6 +268,52 @@ router.put('/edit/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put('/log/setcurrent', rejectUnauthenticated, (req, res) => {
+  const sqlQuery = `UPDATE "food_log"
+  SET "current" = (
+    CASE
+      WHEN "food_id" = $1
+        THEN true
+      ELSE false 
+    END)
+  WHERE "pet_id" = $2;`;
+  const sqlParams = [req.body.foodID, req.body.petID];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in /log/setcurrent');
+      res.sendStatus(500);
+    });
+});
+
+router.put('/log/rating', rejectUnauthenticated, (req, res) => {
+  const sqlQuery = `UPDATE "food_log"
+  SET "rating" = (
+    CASE
+      WHEN "rating" = 'neutral'
+        THEN 'good'::rating
+      WHEN "rating" = 'good'
+        THEN 'bad'::rating
+      ELSE 'neutral'::rating
+    END)
+  WHERE "pet_id" = $1 AND "food_id" = $2;`;
+  const sqlParams = [req.body.petID, req.body.foodID];
+
+  pool
+    .query(sqlQuery, sqlParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in /log/rating', error);
+      res.sendStatus(500);
+    });
+});
+
 /*** DELETE ROUTES ***/
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   const petID = req.params.id;
@@ -213,6 +331,23 @@ router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log('Error in /delete', err);
+      res.sendStatus(500);
+    });
+});
+
+router.delete('/log/delete/:id', rejectUnauthenticated, (req, res) => {
+  const logID = req.params.id;
+
+  const sqlQuery = `DELETE FROM "food_log"
+  WHERE "food_log".id = $1;`;
+
+  pool
+    .query(sqlQuery, [logID])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in delete logs', err);
       res.sendStatus(500);
     });
 });
