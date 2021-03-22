@@ -4,6 +4,10 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { Grid, Paper, Container } from '@material-ui/core';
+
+import './PetDetailPage.css';
+
 function PetDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -28,30 +32,39 @@ function PetDetailPage() {
   }; // end handleEdit
 
   return (
-    <div>
-      <h2>{petInfo.name}</h2>
-      <button onClick={() => handleEdit(petInfo)}>+ edit</button>
+    <Container maxWidth="md">
+      <Grid container spacing={3}>
+        <Grid item xs={5}>
+          <img
+            src={petInfo.image_url}
+            alt={petInfo.name}
+            className="detailImage"
+          />
+        </Grid>
+        <Grid item xs={7}>
+          <h2>{petInfo.name}</h2>
+          <button onClick={() => handleEdit(petInfo)}>+ edit</button>
 
-      <br />
-      <img src={petInfo.image_url} alt={petInfo.name} />
+          <Paper className="infoContainer">
+            {/* Info will only render if it has been entered for this pet */}
+            {petInfo.age && <p>Age: {petInfo.age} year(s)</p>}
+
+            {petInfo.breed && <p>Breed: {petInfo.breed}</p>}
+
+            {petInfo.allergies[0] && (
+              <p>
+                Allergies:&nbsp;
+                {petInfo.allergies.join(', ')}
+              </p>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+
       <div>
-        {/* Info will only render if it has been entered for this pet */}
-        {petInfo.age && <p>Age: {petInfo.age} year(s)</p>}
-
-        {petInfo.breed && <p>Breed: {petInfo.breed}</p>}
-
-        {petInfo.allergies[0] && (
-          <p>
-            Allergies:
-            <ul>
-              {petInfo.allergies.map((allergy, index) => {
-                return <li key={index}>{allergy}</li>;
-              })}
-            </ul>
-          </p>
-        )}
+        <h3>Food Log</h3>
       </div>
-    </div>
+    </Container>
   );
 }
 

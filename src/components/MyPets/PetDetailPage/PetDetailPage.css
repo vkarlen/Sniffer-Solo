@@ -1,0 +1,10 @@
+.infoContainer {
+  padding: 15px;
+  width: 300px;
+}
+
+.detailImage {
+  height: 400px;
+  width: 100%;
+  object-fit: cover;
+}
