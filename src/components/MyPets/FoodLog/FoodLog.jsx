@@ -8,6 +8,7 @@ import {
   TableCell,
   TableRow,
 } from '@material-ui/core';
+import { ThumbUpAlt, ThumbDownAlt, ThumbsUpDown } from '@material-ui/icons';
 
 function FoodLog({ petID }) {
   const dispatch = useDispatch();
@@ -39,7 +40,15 @@ function FoodLog({ petID }) {
               <TableCell>
                 {food.name} {food.description}
               </TableCell>
-              <TableCell>{food.rating}</TableCell>
+              <TableCell align="center">
+                {food.rating === 'good' ? (
+                  <ThumbUpAlt />
+                ) : food.rating === 'bad' ? (
+                  <ThumbDownAlt />
+                ) : (
+                  <ThumbsUpDown />
+                )}
+              </TableCell>
             </TableRow>
           );
         })}

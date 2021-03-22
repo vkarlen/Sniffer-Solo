@@ -43,7 +43,6 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
 
 router.get('/log/:id', rejectUnauthenticated, (req, res) => {
   const petID = req.params.id;
-  console.log('req params', req.params);
 
   const sqlQuery = `
   SELECT 
