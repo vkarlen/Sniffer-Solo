@@ -26,7 +26,7 @@ function SearchPage() {
     dispatch({ type: 'FETCH_ALLERGIES' });
 
     //Check if there is a value in tempQuery from another page
-    if (tempQuery) {
+    if (tempQuery.length > 0) {
       // get the ID for each item in tempQuery and add it to searchQuery
       tempQuery.forEach((allergy) => {
         searchQuery.push(

@@ -17,7 +17,7 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     "pets".breed,
     "pets".age,
     "pets".owner_id,
-    ARRAY_AGG("allergies".description)
+    ARRAY_REMOVE(ARRAY_AGG("allergies".description), NULL)
       AS allergies
   FROM "pets_allergies"
   FULL OUTER JOIN "pets" 
@@ -128,7 +128,6 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/log/add', rejectUnauthenticated, (req, res) => {
-  console.log(req.body);
   const sqlQuery = `INSERT INTO "food_log" ("food_id", "pet_id")
   VALUES ($1, $2);`;
   const sqlParams = [req.body.foodID, req.body.pet];
