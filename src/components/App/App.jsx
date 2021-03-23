@@ -77,7 +77,7 @@ function App() {
             <EditPet />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/search">
+          <ProtectedRoute path="/search" exact>
             <SearchPage />
           </ProtectedRoute>
 
