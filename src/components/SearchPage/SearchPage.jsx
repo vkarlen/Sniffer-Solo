@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom';
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,7 +14,8 @@ function SearchPage() {
   const dispatch = useDispatch();
 
   const searchResults = useSelector((store) => store.food.search);
-  const allergies = useSelector((store) => store.food.allergy);
+  const allergySelect = useSelector((store) => store.food.allergy);
+  const tempQuery = useSelector((store) => store.food.tempQuery);
 
   const [open, setOpen] = useState(false);
   const [clickedFood, setClickedFood] = useState({});
@@ -25,6 +24,19 @@ function SearchPage() {
     searchQuery = [];
     dispatch({ type: 'CLEAR_SEARCH' });
     dispatch({ type: 'FETCH_ALLERGIES' });
+
+    //Check if there is a value in tempQuery from another page
+    if (tempQuery) {
+      // get the ID for each item in tempQuery and add it to searchQuery
+      tempQuery.forEach((allergy) => {
+        searchQuery.push(
+          allergySelect.find((obj) => obj.description === allergy).id
+        );
+      });
+
+      dispatch({ type: 'FETCH_SEARCH', payload: searchQuery });
+      dispatch({ type: 'CLEAR_TEMP_QUERY' });
+    }
   }, []);
 
   const addToQuery = (event) => {
@@ -32,7 +44,6 @@ function SearchPage() {
     if (!searchQuery.includes(event.target.value)) {
       searchQuery = [...searchQuery, event.target.value];
     }
-    //console.log(searchQuery);
 
     dispatch({ type: 'FETCH_SEARCH', payload: searchQuery });
   }; // end addToQuery
@@ -64,7 +75,7 @@ function SearchPage() {
       <div>
         <select defaultValue="ADD" onChange={addToQuery}>
           <option hidden>ADD</option>
-          {allergies.map((allergy) => {
+          {allergySelect.map((allergy) => {
             return (
               <option key={allergy.id} value={allergy.id}>
                 {allergy.description}
@@ -78,7 +89,7 @@ function SearchPage() {
             <span key={item}>
               <button onClick={() => deleteFromQuery(item)}>
                 {
-                  allergies.find((allergy) => allergy.id === Number(item))
+                  allergySelect.find((allergy) => allergy.id === Number(item))
                     .description
                 }
                 &nbsp; X

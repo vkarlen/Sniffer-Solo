@@ -38,6 +38,15 @@ function PetDetailPage() {
     history.push('/edit');
   }; // end handleEdit
 
+  const findFood = () => {
+    dispatch({
+      type: 'SET_TEMP_QUERY',
+      payload: petInfo.allergies,
+    });
+
+    history.push(`/search/`);
+  };
+
   return (
     <Container maxWidth="md">
       <Grid container spacing={3}>
@@ -47,6 +56,8 @@ function PetDetailPage() {
             alt={petInfo.name}
             className="detailImage"
           />
+
+          <button onClick={findFood}>sniff out a new food</button>
         </Grid>
         <Grid item xs={7}>
           <h2>{petInfo.name}</h2>

@@ -20,7 +20,19 @@ const allergy = (state = [], action) => {
   }
 };
 
+const tempQuery = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_TEMP_QUERY':
+      return action.payload;
+    case 'CLEAR_TEMP_QUERY':
+      return [];
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   search,
   allergy,
+  tempQuery,
 });
