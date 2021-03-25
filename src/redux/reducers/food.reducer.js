@@ -31,8 +31,18 @@ const tempQuery = (state = [], action) => {
   }
 };
 
+const compareList = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_COMPARELIST':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   search,
   allergy,
   tempQuery,
+  compareList,
 });
