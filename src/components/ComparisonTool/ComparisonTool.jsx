@@ -1,15 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import {
-  Dialog,
-  Grid,
-  Paper,
-  Container,
-  Select,
-  MenuItem,
-  FormControl,
-} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 function ComparisonTool() {
   const dispatch = useDispatch();
@@ -17,6 +9,7 @@ function ComparisonTool() {
   const compareList = useSelector((store) => store.food.compareList);
 
   const [foods, setFoods] = useState([]);
+  const [overlap, setOverlap] = useState([]);
 
   useEffect(() => {
     dispatch({
@@ -24,14 +17,25 @@ function ComparisonTool() {
     });
   }, []);
 
-  console.log(compareList);
+  // Triggers any time foods changes
+  useEffect(() => {
+    if (foods.length == 2) {
+      let result = foods[0].allergenlist.filter((x) =>
+        foods[1].allergenlist.includes(x)
+      );
+
+      setOverlap(result);
+    } else {
+      setOverlap([]);
+    }
+  }, [foods]);
+
   const addToCompare = (event) => {
-    // Figures out which food was selected
+    // Figures out which food was selected by id
     let selectedFood = compareList.find((obj) => obj.id == event.target.value);
 
     // Only adds selected food if it is not in the array already
-    if (!foods.includes(selectedFood)) {
-      console.log(event.target.value);
+    if (!foods.includes(selectedFood) && foods.length < 2) {
       setFoods([...foods, selectedFood]);
     }
   }; // end addToCompare
@@ -67,6 +71,11 @@ function ComparisonTool() {
           </div>
         );
       })}
+
+      <div>
+        <h3>Overlap</h3>
+        <p>{overlap && overlap.join(', ')}</p>
+      </div>
     </Container>
   );
 }
