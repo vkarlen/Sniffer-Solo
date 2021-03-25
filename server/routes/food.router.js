@@ -20,7 +20,7 @@ router.get('/search', (req, res) => {
   FROM "foods"
   JOIN (SELECT 
         "foods_ingredients".food_id, 
-        ARRAY_AGG("ingredients".allergy_id )
+        ARRAY_AGG(DISTINCT "ingredients".allergy_id )
           FILTER (WHERE "ingredients".allergy_id > '1')
           AS list
       FROM "foods_ingredients"
@@ -85,5 +85,63 @@ router.get('/allergy', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+// Get a list of selected foods, their ingredients, and their allergens
+router.get('/compare', (req, res) => {
+  const sqlQuery = `SELECT 
+    "foods".id, 
+    "brands".name,
+    "foods".description,
+    ARRAY_AGG(
+      "ingredients".description 
+      ORDER BY "foods_ingredients".id)
+      AS ingredientlist,
+    ARRAY_AGG(DISTINCT "allergies".description)
+      FILTER (WHERE "ingredients".allergy_id > '1')
+      AS allergenlist
+  FROM "foods_ingredients"
+  JOIN "ingredients" 
+    ON "ingredients".id = "foods_ingredients".ingredients_id
+  JOIN "foods"
+    ON "foods".id = "foods_ingredients".food_id
+  JOIN "allergies"
+    ON "allergies".id = "ingredients".allergy_id
+  JOIN "brands"
+    ON "brands".id = "foods".brand_id
+  GROUP BY "foods".id, "brands".name, "foods".description
+  ORDER BY "foods".id;`;
+
+  pool
+    .query(sqlQuery)
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in /compare', err);
+      res.sendStatus(500);
+    });
+});
+
+// // Gets all foods in db
+// router.get('/', (req, res) => {
+//   const sqlQuery = `
+//   SELECT
+//     "foods".id,
+//     "brands".name,
+//     "foods".description
+//   FROM "foods"
+//   JOIN "brands"
+//     ON "brands".id = "foods".brand_id
+//   ORDER BY "brands".name, "foods".description;`;
+
+//   pool
+//     .query(sqlQuery)
+//     .then((dbRes) => {
+//       res.send(dbRes.rows);
+//     })
+//     .catch((err) => {
+//       console.log('Error in GET /', err);
+//     });
+// });
 
 module.exports = router;

@@ -29,9 +29,23 @@ function* fetchAllergies() {
   }
 } // end fetchAllergies
 
+function* fetchCompareList() {
+  try {
+    const compare = yield axios.get(`api/food/compare`);
+
+    yield put({
+      type: 'SET_COMPARELIST',
+      payload: compare.data,
+    });
+  } catch (error) {
+    console.log('Error in fetchCompareList', error);
+  }
+}
+
 function* foodSaga() {
   yield takeEvery('FETCH_SEARCH', fetchSearch);
   yield takeEvery('FETCH_ALLERGIES', fetchAllergies);
+  yield takeEvery('FETCH_COMPARELIST', fetchCompareList);
 }
 
 export default foodSaga;
