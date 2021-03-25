@@ -36,9 +36,9 @@ function ComparisonTool() {
     }
   }; // end addToCompare
 
-  const deleteFromCompare = (removedItem) => {
-    // Removes clicked item from searchQuery
-    setFoods(foods.filter((item) => item !== removedItem));
+  const deleteFromCompare = (removedID) => {
+    // Removes clicked item from foods
+    setFoods(foods.filter((item) => item.id !== removedID));
   }; // end deleteFromCompare
 
   return (
@@ -56,19 +56,17 @@ function ComparisonTool() {
         })}
       </select>
 
-      {/* {searchQuery.map((item) => {
+      {foods.map((item) => {
         return (
-          <span key={item}>
-            <button onClick={() => deleteFromQuery(item)}>
-              {
-                allergySelect.find((allergy) => allergy.id === Number(item))
-                  .description
-              }
-              &nbsp; X
-            </button>
-          </span>
+          <div key={item.id}>
+            <p>
+              {item.name} {item.description}
+            </p>
+            <p>Ingredients: {item.ingredientlist.join(', ')}</p>
+            <button onClick={() => deleteFromCompare(item.id)}>X</button>
+          </div>
         );
-      })} */}
+      })}
     </Container>
   );
 }
