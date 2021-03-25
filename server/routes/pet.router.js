@@ -6,7 +6,7 @@ const {
 } = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
-router.get('/details/:id', rejectUnauthenticated, (req, res) => {
+router.get('/details/:id', (req, res) => {
   const petID = req.params.id;
 
   const sqlQuery = `

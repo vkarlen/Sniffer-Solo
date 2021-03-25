@@ -1,10 +1,13 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
 /*** GET ROUTES ***/
 // Searches DB for foods not including selected allergies
-router.get('/search', (req, res) => {
+router.get('/search', rejectUnauthenticated, (req, res) => {
   const allergyList = req.query.allergies;
 
   let sqlQuery = `
@@ -68,7 +71,7 @@ router.get('/search', (req, res) => {
 });
 
 // Get a list of the allergies, not including Unassigned/None
-router.get('/allergy', (req, res) => {
+router.get('/allergy', rejectUnauthenticated, (req, res) => {
   const sqlQuery = `
   SELECT * 
   FROM "allergies"
@@ -86,8 +89,8 @@ router.get('/allergy', (req, res) => {
     });
 });
 
-// Get a list of selected foods, their ingredients, and their allergens
-router.get('/compare', (req, res) => {
+// Get a list of all foods, their ingredients, and their allergens for comparison tool
+router.get('/compare', rejectUnauthenticated, (req, res) => {
   const sqlQuery = `SELECT 
     "foods".id, 
     "brands".name,
@@ -121,27 +124,5 @@ router.get('/compare', (req, res) => {
       res.sendStatus(500);
     });
 });
-
-// // Gets all foods in db
-// router.get('/', (req, res) => {
-//   const sqlQuery = `
-//   SELECT
-//     "foods".id,
-//     "brands".name,
-//     "foods".description
-//   FROM "foods"
-//   JOIN "brands"
-//     ON "brands".id = "foods".brand_id
-//   ORDER BY "brands".name, "foods".description;`;
-
-//   pool
-//     .query(sqlQuery)
-//     .then((dbRes) => {
-//       res.send(dbRes.rows);
-//     })
-//     .catch((err) => {
-//       console.log('Error in GET /', err);
-//     });
-// });
 
 module.exports = router;

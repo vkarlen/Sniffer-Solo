@@ -1,3 +1,5 @@
+--- DATABASE NAME: sniffer_db
+
 --- TABLES
 CREATE TABLE "user" (
 	"id" SERIAL PRIMARY KEY,
@@ -47,7 +49,8 @@ CREATE TABLE "pets" (
 CREATE TABLE "pets_allergies" (
 	"id" SERIAL PRIMARY KEY,
 	"pet_id" INT NOT NULL REFERENCES "pets" ON DELETE CASCADE,
-	"allergy_id" INT NOT NULL REFERENCES "allergies" ON DELETE CASCADE
+	"allergy_id" INT NOT NULL REFERENCES "allergies" ON DELETE CASCADE,
+	UNIQUE (pet_id, allergy_id)
 );
 
 CREATE TYPE rating AS ENUM ('good', 'neutral', 'bad');
@@ -57,7 +60,8 @@ CREATE TABLE "food_log" (
 	"pet_id" INT NOT NULL REFERENCES "pets" ON DELETE CASCADE,
 	"food_id" INT NOT NULL REFERENCES "foods" ON DELETE CASCADE,
 	"current" BOOLEAN DEFAULT 'false',
-	"rating" rating DEFAULT 'neutral'
+	"rating" rating DEFAULT 'neutral',
+	UNIQUE ("pet_ids", "food_id")
 );
 
 -- CREATE DATA
@@ -94,13 +98,11 @@ VALUES ('Acana'),
 ('Pro Pac'),
 ('Pure Vita'),
 ('Purina Pro Plan'),
-('Roosevelt'),
 ('Royal Canin'),
 ('Science Diet'),
 ('Solid Gold'),
 ('Stella & Chewys'),
 ('Taste of the Wild'),
-('Vet Diet'),
 ('Victor'),
 ('Wellness'),
 ('Whole Earth Farms'),
