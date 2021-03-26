@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Roboto&display=swap');
+
 html,
 body,
 #react-root {
   height: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -12,14 +15,6 @@ body {
 img {
   display: inline-block;
   max-width: 100%;
-}
-
-/* --------------------------------------------------------------------------------
-Container
--------------------------------------------------------------------------------- */
-
-.container {
-  padding: 20px;
 }
 
 /* --------------------------------------------------------------------------------

@@ -3,9 +3,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  margin: 0 0 30px;
-  background-color: #00acb0;
+  height: 70px;
+  margin: 0px;
+  background-color: #141f17;
   overflow: hidden;
 }
 
@@ -14,17 +14,20 @@
 }
 
 .nav-title {
-  font-size: 24px;
+  font-size: 3em;
   font-weight: 700;
+  font-family: 'Nanum Myeongjo', serif;
   color: #f2f2f2;
   padding-left: 10px;
   margin: 0;
+  display: inline;
+  vertical-align: middle;
 }
 
 .navLink {
   display: inline-block;
   color: #f2f2f2;
-  background-color: #00acb0;
+  background-color: #18251c;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;
@@ -38,5 +41,11 @@
 }
 
 .navLink:hover {
-  background-color: #008183;
+  background-color: #283e25;
+}
+
+#logo {
+  height: 60px;
+  margin: 10px 0px 10px 20px;
+  vertical-align: middle;
 }

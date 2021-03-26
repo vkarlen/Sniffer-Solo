@@ -78,3 +78,65 @@ Grid
   flex-basis: 100%;
   max-width: 100%;
 }
+
+.container {
+  margin: 0px;
+  padding: 0px;
+}
+
+#coverImage {
+  width: 100%;
+  height: 800px;
+  object-fit: cover;
+  margin: 0;
+}
+
+#copyOne,
+#copyTwo {
+  color: whitesmoke;
+  font-family: 'Nanum Myeongjo', serif;
+  position: absolute;
+  z-index: 1;
+}
+
+#copyOne {
+  top: 240px;
+  left: 7%;
+  font-size: 2.5em;
+}
+
+#copyTwo {
+  top: 310px;
+  left: 20%;
+  font-size: 1.8em;
+  font-style: italic;
+}
+
+#infoContainer {
+  color: whitesmoke;
+  font-family: 'Roboto', sans-serif;
+  position: absolute;
+  z-index: 1;
+  top: 380px;
+  left: 7%;
+  width: 500px;
+  text-align: justify;
+}
+
+#loginBtns {
+  position: absolute;
+  z-index: 1;
+  width: 500px;
+  top: 550px;
+  left: 7%;
+}
+
+#photocredit {
+  position: absolute;
+  z-index: 1;
+  right: 5px;
+  top: 850px;
+  color: whitesmoke;
+  text-decoration: none;
+  font-size: 0.7em;
+}
