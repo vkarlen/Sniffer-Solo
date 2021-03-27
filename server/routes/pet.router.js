@@ -122,7 +122,7 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
       }
     })
     .catch((err) => {
-      console.log('Error in /add', error);
+      console.log('Error in /add', err);
       res.sendStatus(500);
     });
 });

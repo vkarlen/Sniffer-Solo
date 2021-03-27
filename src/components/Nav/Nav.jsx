@@ -25,12 +25,6 @@ function Nav() {
         </Grid>
 
         <Grid item xs={4}>
-          {!user.id && (
-            <Link className="navLink" to="/login">
-              Login / Register
-            </Link>
-          )}
-
           {user.id && (
             <>
               <Link className="navLink" to="/pets">
@@ -51,6 +45,18 @@ function Nav() {
                 Admin Portal
               </Link>
             </>
+          )}
+
+          <>
+            <Link className="navLink" to="/about">
+              About
+            </Link>
+          </>
+
+          {!user.id && (
+            <Link className="navLink" to="/login">
+              Login / Register
+            </Link>
           )}
 
           {user.id && (
