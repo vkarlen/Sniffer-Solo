@@ -57,12 +57,20 @@ function LandingPage() {
         {!user.id && (
           <Grid container id="loginBtns" justify="space-evenly">
             <Grid item>
-              <Button variant="outlined" onClick={() => handleOpen('login')}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleOpen('login')}
+              >
                 Login
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="outlined" onClick={() => handleOpen('register')}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleOpen('register')}
+              >
                 Register
               </Button>
             </Grid>
