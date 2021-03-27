@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,6 +17,12 @@ function LandingPage() {
 
   const [open, setOpen] = useState(false);
   const [clickedForm, setClickedForm] = useState('');
+
+  useEffect(() => {
+    if (user.id) {
+      setOpen(false);
+    }
+  }, [user]);
 
   const onLogin = (event) => {
     history.push('/login');
@@ -52,7 +58,6 @@ function LandingPage() {
             elementum eget.
           </p>
         </div>
-
         {!user.id && (
           <Grid container id="loginBtns" justify="space-evenly">
             <Grid item>

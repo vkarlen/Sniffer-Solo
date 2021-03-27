@@ -4,17 +4,23 @@ html,
 body,
 #react-root {
   height: 100%;
-  font-family: 'Roboto', sans-serif;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body,
+p,
+li {
+  font-family: 'Roboto', sans-serif;
   margin: 0px;
 }
 
 img {
   display: inline-block;
   max-width: 100%;
+}
+
+h2,
+h3 {
+  font-family: 'Nanum Myeongjo', serif;
 }
 
 /* --------------------------------------------------------------------------------

@@ -1,0 +1,12 @@
+#about h2 {
+  text-align: center;
+}
+
+#about p {
+  text-indent: 30px;
+  margin: 5px;
+}
+
+#acknowledgement {
+  font-family: 'Nanum Myeongjo', serif;
+}
