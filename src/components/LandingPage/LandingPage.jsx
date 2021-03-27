@@ -40,11 +40,6 @@ function LandingPage() {
   return (
     <div className="container">
       <div id="coverContainer">
-        <img
-          src="https://images.unsplash.com/photo-1534361960057-19889db9621e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
-          alt="White dog running in a field"
-          id="coverImage"
-        />
         <p id="copyOne">Food allergies can be ruff...</p>
         <p id="copyTwo">but they don't have to be.</p>
 
@@ -58,6 +53,7 @@ function LandingPage() {
             elementum eget.
           </p>
         </div>
+
         {!user.id && (
           <Grid container id="loginBtns" justify="space-evenly">
             <Grid item>
@@ -73,6 +69,7 @@ function LandingPage() {
           </Grid>
         )}
       </div>
+
       <a
         href="https://unsplash.com/@joeyc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
         id="photocredit"

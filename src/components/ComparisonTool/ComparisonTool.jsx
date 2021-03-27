@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { Container } from '@material-ui/core';
+import { Container, Card, Grid, ButtonIcon } from '@material-ui/core';
 
 function ComparisonTool() {
   const dispatch = useDispatch();
@@ -47,34 +47,38 @@ function ComparisonTool() {
 
   return (
     <Container maxWidth="md">
-      <h2>Comparison Tool</h2>
+      <h2 className="page-title">Comparison Tool</h2>
 
-      <select value={foods} onChange={addToCompare}>
-        <option hidden>ADD</option>
-        {compareList.map((food) => {
+      <div>
+        <select value={foods} onChange={addToCompare}>
+          <option hidden>ADD</option>
+          {compareList.map((food) => {
+            return (
+              <option key={food.id} value={food.id}>
+                {food.name} {food.description}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
+      <div>
+        {foods.map((item) => {
           return (
-            <option key={food.id} value={food.id}>
-              {food.name} {food.description}
-            </option>
+            <Card key={item.id}>
+              <p>
+                {item.name} {item.description}
+              </p>
+              <p>Ingredients: {item.ingredientlist.join(', ')}</p>
+              <button onClick={() => deleteFromCompare(item.id)}>X</button>
+            </Card>
           );
         })}
-      </select>
-
-      {foods.map((item) => {
-        return (
-          <div key={item.id}>
-            <p>
-              {item.name} {item.description}
-            </p>
-            <p>Ingredients: {item.ingredientlist.join(', ')}</p>
-            <button onClick={() => deleteFromCompare(item.id)}>X</button>
-          </div>
-        );
-      })}
+      </div>
 
       <div>
         <h3>Overlap</h3>
-        <p>{overlap && overlap.join(', ')}</p>
+        <p>{overlap && <Card>{overlap.join(', ')}</Card>}</p>
       </div>
     </Container>
   );

@@ -1,3 +1,14 @@
 .isCurrent {
   font-weight: bold;
 }
+
+.log-title {
+  display: inline-block;
+  text-align: center;
+}
+
+.log-header {
+  margin-top: 10px;
+
+  text-align: center;
+}

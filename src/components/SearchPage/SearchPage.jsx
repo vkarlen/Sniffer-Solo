@@ -71,7 +71,7 @@ function SearchPage() {
 
   return (
     <Container maxWidth="md">
-      <h2>Search Tool</h2>
+      <h2 className="page-title">Search Tool</h2>
       <div>
         <select defaultValue="ADD" onChange={addToQuery}>
           <option hidden>ADD</option>

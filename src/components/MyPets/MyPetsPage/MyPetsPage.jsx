@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Grid, Paper, Container } from '@material-ui/core';
+import { Grid, Paper, Container, Button } from '@material-ui/core';
 
 import './MyPetsPage.css';
 
@@ -12,8 +12,15 @@ function MyPetsPage() {
 
   return (
     <Container maxWidth="md">
-      <h2>My Pets</h2>
-      <button onClick={() => history.push('/addapet')}>+ add a pet</button>
+      <h2 className="page-title">My Pets</h2>
+      <Button
+        variant="text"
+        color="primary"
+        size="small"
+        onClick={() => history.push('/addapet')}
+      >
+        + add a pet
+      </Button>
 
       {pets.length === 0 ? (
         <p>Please add a pet!</p>

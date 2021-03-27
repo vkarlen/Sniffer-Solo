@@ -8,6 +8,7 @@ import {
   TableCell,
   TableRow,
   IconButton,
+  Button,
 } from '@material-ui/core';
 import { ThumbUpAlt, ThumbDownAlt, ThumbsUpDown } from '@material-ui/icons';
 
@@ -56,16 +57,21 @@ function FoodLog({ pet, user }) {
 
   return (
     <div>
-      <h3>Food Log</h3>
-      {user.id === pet.owner_id && (
-        <button
-          onClick={() => {
-            setEdit(!edit);
-          }}
-        >
-          + edit
-        </button>
-      )}
+      <div className="log-header">
+        <h3 className="log-title">Food Log</h3>
+        {user.id === pet.owner_id && (
+          <Button
+            variant="text"
+            color="primary"
+            size="small"
+            onClick={() => {
+              setEdit(!edit);
+            }}
+          >
+            + edit
+          </Button>
+        )}
+      </div>
       <Table>
         <TableHead>
           <TableRow>
