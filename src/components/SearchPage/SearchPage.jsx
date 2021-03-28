@@ -148,7 +148,12 @@ function SearchPage() {
         )}
       </Grid>
 
-      <Dialog open={openDetail} onClose={handleClose}>
+      <Dialog
+        open={openDetail}
+        onClose={handleClose}
+        scroll="paper"
+        id="detail-container"
+      >
         <SearchDetail food={clickedFood} />
       </Dialog>
     </Container>

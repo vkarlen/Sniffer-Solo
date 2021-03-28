@@ -9,6 +9,8 @@ import {
   MenuItem,
   Button,
   Snackbar,
+  DialogTitle,
+  DialogContentText,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
@@ -50,15 +52,24 @@ function SearchDetail({ food }) {
   }; // end goToPet
 
   return (
-    <div id="detailContainer">
-      <DialogContent>
-        <h2>
+    <>
+      <DialogTitle>
+        <h2 id="detail-title">
           {food.name} {food.description}
         </h2>
-        <img src={food.image} alt={food.description} id="detailImage" />
-        <p>
-          <b>Ingredients:</b> {food.ingredientlist.join(', ')}
-        </p>
+      </DialogTitle>
+
+      <DialogContent dividers="true">
+        <DialogContentText>
+          <img
+            src={food.image}
+            alt={(food.name, food.description)}
+            id="detail-image"
+          />
+          <p>
+            <b>Ingredients:</b> {food.ingredientlist.join(', ')}
+          </p>
+        </DialogContentText>
       </DialogContent>
 
       <DialogActions>
@@ -112,7 +123,7 @@ function SearchDetail({ food }) {
           </Button>
         </Alert>
       </Snackbar>
-    </div>
+    </>
   );
 }
 
