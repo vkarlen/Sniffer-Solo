@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 import {
   Grid,
@@ -11,6 +12,10 @@ import {
   MenuItem,
   FormHelperText,
   Button,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
 } from '@material-ui/core';
 
 import './EditPet.css';
@@ -22,12 +27,9 @@ function EditPet({ handleClose }) {
   const pet = useSelector((store) => store.pet.editPet);
   const allergies = useSelector((store) => store.food.allergy);
 
-  useEffect(() => {
-    // If someone navigates here not from a pet's page, send them to pets
-    if (!pet.id) {
-      history.push('/pets');
-    }
+  const [openConfirm, setOpenConfirm] = useState(false);
 
+  useEffect(() => {
     dispatch({ type: 'FETCH_ALLERGIES' });
   }, []);
 
@@ -77,12 +79,12 @@ function EditPet({ handleClose }) {
       payload: pet.id,
     });
 
-    dispatch({
-      type: 'CLEAR_EDIT_PET',
-    });
-
     history.push('/pets');
-  };
+  }; // end handleDelete
+
+  const handleConfirmClose = () => {
+    setOpenConfirm(false);
+  }; // end handleConfirmClose
 
   return (
     <div id="edit-container">
@@ -91,7 +93,7 @@ function EditPet({ handleClose }) {
         variant="text"
         style={{ color: '#c53636' }}
         size="small"
-        onClick={handleDelete}
+        onClick={() => setOpenConfirm(true)}
       >
         x delete
       </Button>
@@ -180,6 +182,29 @@ function EditPet({ handleClose }) {
           </Grid>
         </FormControl>
       </div>
+
+      <Dialog open={openConfirm} onClose={handleConfirmClose}>
+        <DialogTitle>Are you sure you want to delete {pet.name}?</DialogTitle>
+        <DialogContent>This action cannot be undone.</DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={handleConfirmClose}
+            variant="outlined"
+            color="primary"
+          >
+            Cancel
+          </Button>
+
+          <Button
+            onClick={handleDelete}
+            style={{ backgroundColor: '#c53636', color: 'white' }}
+            variant="contained"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
