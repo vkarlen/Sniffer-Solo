@@ -94,6 +94,10 @@ function* deletePet(action) {
     yield put({
       type: 'FETCH_PETS',
     });
+
+    yield put({
+      type: 'CLEAR_EDIT_PET',
+    });
   } catch (error) {
     console.log('Error in deletePet', error);
   }
