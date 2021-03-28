@@ -14,7 +14,7 @@ function FoodTable() {
 
   return (
     <div>
-      <table id="foodTable">
+      <table className="admin-table">
         <thead>
           <tr>
             <th id="imgHeader">Image</th>

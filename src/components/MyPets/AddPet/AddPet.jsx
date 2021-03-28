@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { Grid, Paper, Container, Button } from '@material-ui/core';
+
 function AddPetPage() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -57,7 +59,7 @@ function AddPetPage() {
   }; // end deleteAllergy
 
   return (
-    <div>
+    <Container maxWidth="md">
       <h2>Add a Pet</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -111,7 +113,7 @@ function AddPetPage() {
 
         <button>Submit</button>
       </form>
-    </div>
+    </Container>
   );
 }
 

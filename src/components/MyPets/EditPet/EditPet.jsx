@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
+import { Grid, Paper, Container, Button } from '@material-ui/core';
+
 function EditPet() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -73,7 +75,7 @@ function EditPet() {
   };
 
   return (
-    <div>
+    <Container maxWidth="md">
       <h2>Edit</h2>
       <button onClick={handleDelete}>delete</button>
 
@@ -137,7 +139,7 @@ function EditPet() {
 
         <button onClick={handleSubmit}>Update</button>
       </form>
-    </div>
+    </Container>
   );
 }
 

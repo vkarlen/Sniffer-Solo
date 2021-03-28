@@ -4,11 +4,19 @@
 
 .log-title {
   display: inline-block;
-  text-align: center;
 }
 
 .log-header {
   margin-top: 10px;
-
   text-align: center;
+}
+
+#log-table {
+  width: 500px;
+  margin: auto;
+  color: #3e8635;
+}
+
+#rating-col {
+  width: 30px;
 }
