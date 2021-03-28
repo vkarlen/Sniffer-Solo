@@ -77,6 +77,11 @@ router.get('/log/:id', (req, res) => {
 router.post('/add', rejectUnauthenticated, (req, res) => {
   const pet = req.body;
 
+  if (pet.age === '') {
+    pet.age = NULL;
+  }
+
+  console.log(pet);
   const petSql = `INSERT INTO "pets" ("name", "owner_id", "image_url", "age", "breed")
   VALUES ($1, $2, $3, $4, $5)
   RETURNING "id";`;

@@ -32,16 +32,28 @@ function AddPetPage({ handleClose }) {
 
   const handleSubmit = () => {
     // Make sure a name is entered before sending data
-    if (newName) {
+    if (newName && newPicture) {
+      let newPet = {
+        name: newName,
+        picture: newPicture,
+        age: newAge,
+        breed: newBreed,
+        allergies: allergyList,
+      };
+
+      console.log(newPet);
+
+      Object.keys(newPet).forEach(function (key) {
+        if (newPet[key] === '') {
+          newPet[key] = null;
+        }
+      });
+
+      console.log(newPet);
+
       dispatch({
         type: 'ADD_PET',
-        payload: {
-          name: newName,
-          picture: newPicture,
-          age: newAge,
-          breed: newBreed,
-          allergies: allergyList,
-        },
+        payload: newPet,
       });
 
       // Clear inputs
@@ -89,6 +101,7 @@ function AddPetPage({ handleClose }) {
               fullWidth="true"
               value={newPicture}
               onChange={(evt) => setNewPicture(evt.target.value)}
+              required
             />
           </Grid>
 
@@ -111,7 +124,7 @@ function AddPetPage({ handleClose }) {
           </Grid>
 
           <Grid item xs={8}>
-            <Select fullWidth="true" onChange={addAllergy}>
+            <Select fullWidth="true" onChange={addAllergy} label="Breed">
               {allergies.map((allergy) => {
                 return (
                   <MenuItem key={allergy.id} value={allergy.description}>
