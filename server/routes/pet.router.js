@@ -129,7 +129,8 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
 
 router.post('/log/add', rejectUnauthenticated, (req, res) => {
   const sqlQuery = `INSERT INTO "food_log" ("food_id", "pet_id")
-  VALUES ($1, $2);`;
+  VALUES ($1, $2)
+  ON CONFLICT DO NOTHING;`;
   const sqlParams = [req.body.foodID, req.body.pet];
 
   pool

@@ -9,9 +9,9 @@ import {
   Select,
   MenuItem,
   Button,
-  InputLabel,
   FormHelperText,
   FormControl,
+  Snackbar,
 } from '@material-ui/core';
 
 import './SearchPage.css';
@@ -28,7 +28,7 @@ function SearchPage() {
   const allergySelect = useSelector((store) => store.food.allergy);
   const tempQuery = useSelector((store) => store.food.tempQuery);
 
-  const [open, setOpen] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
   const [clickedFood, setClickedFood] = useState({});
 
   useEffect(() => {
@@ -73,11 +73,11 @@ function SearchPage() {
 
   const handleOpen = (food) => {
     setClickedFood(food);
-    setOpen(true);
+    setOpenDetail(true);
   }; // end handleOpen
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDetail(false);
   }; // end handleClose
 
   return (
@@ -148,7 +148,7 @@ function SearchPage() {
         )}
       </Grid>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={openDetail} onClose={handleClose}>
         <SearchDetail food={clickedFood} />
       </Dialog>
     </Container>

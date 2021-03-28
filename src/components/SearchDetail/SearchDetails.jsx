@@ -8,7 +8,9 @@ import {
   Select,
   MenuItem,
   Button,
+  Snackbar,
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 import './SearchDetails.css';
 
@@ -19,6 +21,7 @@ function SearchDetail({ food }) {
   const pets = useSelector((store) => store.user.userPets);
 
   const [pet, setPet] = useState('');
+  const [openAlert, setOpenAlert] = useState(false);
 
   const addToLog = (foodID, current) => {
     dispatch({
@@ -29,8 +32,22 @@ function SearchDetail({ food }) {
         current,
       },
     });
-    // Add success alert with option to go to pet page on click
-  };
+
+    setOpenAlert(true);
+  }; // end addToLog
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenAlert(false);
+  }; // end handleClose
+
+  const goToPet = () => {
+    history.push(`/pets/${pet}`);
+  }; // end goToPet
+
   return (
     <div id="detailContainer">
       <DialogContent>
@@ -77,6 +94,23 @@ function SearchDetail({ food }) {
           + Add to Log
         </Button>
       </DialogActions>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+      >
+        <Alert severity="success" variant="filled">
+          Successfully added food
+          <Button color="secondary" size="small" onClick={goToPet}>
+            GO TO PET
+          </Button>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
