@@ -1,0 +1,29 @@
+#overlap-container {
+  width: 400px;
+  margin: 10px auto;
+  text-align: center;
+  font-weight: bold;
+}
+
+#overlap-text {
+  color: #d61f1f;
+  font-weight: normal;
+}
+
+#compare-container {
+  padding: 15px 30px;
+  margin: 10px;
+}
+
+#compare-select {
+  width: 300px;
+}
+
+.food-container {
+  padding: 15px;
+  margin: 10px;
+}
+
+.close-btn {
+  float: right;
+}
