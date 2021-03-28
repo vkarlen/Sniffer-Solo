@@ -130,15 +130,17 @@ function SearchPage() {
             {searchResults.map((result) => {
               return (
                 <Grid item xs={6} md={3} key={result.id}>
-                  <Paper className="searchResult">
+                  <Paper
+                    className="searchResult"
+                    onClick={() => handleOpen(result)}
+                  >
                     <img
                       src={result.image}
                       alt={result.description}
                       className="searchImg"
-                      onClick={() => handleOpen(result)}
                     />
                     <p>
-                      {result.brand} {result.description}
+                      {result.name} {result.description}
                     </p>
                   </Paper>
                 </Grid>
