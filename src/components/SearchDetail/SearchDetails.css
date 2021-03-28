@@ -6,3 +6,8 @@
 #detailContainer {
   text-align: center;
 }
+
+#pet-select {
+  width: 100px;
+  height: 10px;
+}

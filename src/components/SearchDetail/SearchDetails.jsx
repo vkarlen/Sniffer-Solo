@@ -2,7 +2,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
-import { DialogContent, DialogActions } from '@material-ui/core';
+import {
+  DialogContent,
+  DialogActions,
+  Select,
+  MenuItem,
+  Button,
+} from '@material-ui/core';
 
 import './SearchDetails.css';
 
@@ -28,34 +34,48 @@ function SearchDetail({ food }) {
   return (
     <div id="detailContainer">
       <DialogContent>
-        <h3>
+        <h2>
           {food.name} {food.description}
-        </h3>
+        </h2>
         <img src={food.image} alt={food.description} id="detailImage" />
-        <p>Ingredients: {food.ingredientlist.join(', ')}</p>
+        <p>
+          <b>Ingredients:</b> {food.ingredientlist.join(', ')}
+        </p>
       </DialogContent>
 
       <DialogActions>
-        <select
+        <Select
           defaultValue="SELECT"
+          label="Select a Pet"
+          id="pet-select"
           onChange={(evt) => {
             setPet(evt.target.value);
           }}
         >
-          <option hidden>SELECT</option>
-
           {pets.map((pet) => {
             return (
-              <option key={pet.id} value={pet.id}>
+              <MenuItem key={pet.id} value={pet.id}>
                 {pet.name}
-              </option>
+              </MenuItem>
             );
           })}
-        </select>
+        </Select>
 
-        <button onClick={() => addToLog(food.id, true)}>Try Food</button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => addToLog(food.id, true)}
+        >
+          + Set Current
+        </Button>
 
-        <button onClick={() => addToLog(food.id, false)}>Add to Log</button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => addToLog(food.id, false)}
+        >
+          + Add to Log
+        </Button>
       </DialogActions>
     </div>
   );

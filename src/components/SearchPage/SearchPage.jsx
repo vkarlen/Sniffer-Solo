@@ -87,7 +87,7 @@ function SearchPage() {
 
       <Paper id="search-container">
         <div>
-          <FormControl>
+          <FormControl color="primary">
             <FormHelperText id="allergy-label">
               Select Ingredients
             </FormHelperText>
