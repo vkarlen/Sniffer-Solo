@@ -1,12 +1,11 @@
-#about h2 {
+#acknowledgement {
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 17px;
+  font-weight: bold;
   text-align: center;
 }
 
-#about p {
+#about-container {
+  padding: 20px 40px;
   text-indent: 30px;
-  margin: 5px;
-}
-
-#acknowledgement {
-  font-family: 'Nanum Myeongjo', serif;
 }

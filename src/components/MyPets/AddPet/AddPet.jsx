@@ -2,7 +2,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-function AddPetPage() {
+import {
+  Grid,
+  TextField,
+  Select,
+  FormControl,
+  MenuItem,
+  FormHelperText,
+  Button,
+} from '@material-ui/core';
+
+import './AddPet.css';
+
+function AddPetPage({ handleClose }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -39,8 +51,8 @@ function AddPetPage() {
       setNewBreed('');
       setAllergyList([]);
 
-      // Send user back to the pets page
-      history.push('/pets');
+      // Close window
+      handleClose(false);
     }
   };
 
@@ -57,60 +69,83 @@ function AddPetPage() {
   }; // end deleteAllergy
 
   return (
-    <div>
-      <h2>Add a Pet</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Pets Name"
-          value={newName}
-          onChange={(evt) => setNewName(evt.target.value)}
-          required
-        />
+    <div id="add-container">
+      <h2 className="page-title">Add a Pet</h2>
+      <FormControl color="primary">
+        <Grid container spacing={2}>
+          <Grid item xs={10}>
+            <TextField
+              label="Name"
+              fullWidth="true"
+              value={newName}
+              onChange={(evt) => setNewName(evt.target.value)}
+              required
+            />
+          </Grid>
 
-        <input
-          type="text"
-          placeholder="Pets Picture"
-          value={newPicture}
-          onChange={(evt) => setNewPicture(evt.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              label="Picture"
+              fullWidth="true"
+              value={newPicture}
+              onChange={(evt) => setNewPicture(evt.target.value)}
+            />
+          </Grid>
 
-        <input
-          type="text"
-          placeholder="Pets Age"
-          value={newAge}
-          onChange={(evt) => setNewAge(evt.target.value)}
-        />
+          <Grid item xs={5}>
+            <TextField
+              label="Age in Years"
+              fullWidth="true"
+              value={newAge}
+              onChange={(evt) => setNewAge(evt.target.value)}
+            />
+          </Grid>
 
-        <input
-          type="text"
-          placeholder="Pets Breed"
-          value={newBreed}
-          onChange={(evt) => setNewBreed(evt.target.value)}
-        />
+          <Grid item xs={5}>
+            <TextField
+              label="Breed"
+              fullWidth="true"
+              value={newBreed}
+              onChange={(evt) => setNewBreed(evt.target.value)}
+            />
+          </Grid>
 
-        <select defaultValue="ADD" onChange={addAllergy}>
-          <option hidden>ADD</option>
-          {allergies.map((allergy) => {
-            return (
-              <option key={allergy.id} value={allergy.description}>
-                {allergy.description}
-              </option>
-            );
-          })}
-        </select>
-        {allergyList.map((allergy, index) => {
-          return (
-            <span key={index}>
-              <button onClick={() => deleteAllergy(allergy)}>
-                {allergy} &nbsp; X
-              </button>
-            </span>
-          );
-        })}
+          <Grid item xs={8}>
+            <Select fullWidth="true" onChange={addAllergy}>
+              {allergies.map((allergy) => {
+                return (
+                  <MenuItem key={allergy.id} value={allergy.description}>
+                    {allergy.description}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </Grid>
 
-        <button>Submit</button>
-      </form>
+          <Grid item xs={12}>
+            {allergyList.map((allergy, index) => {
+              return (
+                <span key={index}>
+                  <Button onClick={() => deleteAllergy(allergy)}>
+                    X {allergy}
+                  </Button>
+                </span>
+              );
+            })}
+          </Grid>
+
+          <Grid item xs={12}>
+            <Button
+              variant="outlined"
+              color="primary"
+              id="submit-btn"
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
+      </FormControl>
     </div>
   );
 }

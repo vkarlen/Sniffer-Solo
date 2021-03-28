@@ -25,7 +25,7 @@ function AllergyTable() {
 
   return (
     <div>
-      <table>
+      <table className="admin-table">
         <thead>
           <tr>
             <th>Ingredient</th>

@@ -1,7 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { Container } from '@material-ui/core';
+import {
+  Container,
+  Paper,
+  Grid,
+  IconButton,
+  Select,
+  MenuItem,
+  FormHelperText,
+  FormControl,
+} from '@material-ui/core';
+import { Close } from '@material-ui/icons';
+
+import './ComparisonTool.css';
 
 function ComparisonTool() {
   const dispatch = useDispatch();
@@ -23,6 +35,10 @@ function ComparisonTool() {
       let result = foods[0].allergenlist.filter((x) =>
         foods[1].allergenlist.includes(x)
       );
+
+      if (result.length < 1) {
+        result = ['None'];
+      }
 
       setOverlap(result);
     } else {
@@ -47,34 +63,53 @@ function ComparisonTool() {
 
   return (
     <Container maxWidth="md">
-      <h2>Comparison Tool</h2>
+      <h2 className="page-title">Comparison Tool</h2>
 
-      <select value={foods} onChange={addToCompare}>
-        <option hidden>ADD</option>
-        {compareList.map((food) => {
-          return (
-            <option key={food.id} value={food.id}>
-              {food.name} {food.description}
-            </option>
-          );
-        })}
-      </select>
+      <Paper id="compare-container">
+        {foods.length < 2 && (
+          <FormControl color="primary" color="primary">
+            <FormHelperText>Select two foods</FormHelperText>
 
-      {foods.map((item) => {
-        return (
-          <div key={item.id}>
-            <p>
-              {item.name} {item.description}
-            </p>
-            <p>Ingredients: {item.ingredientlist.join(', ')}</p>
-            <button onClick={() => deleteFromCompare(item.id)}>X</button>
+            <Select value={foods} onChange={addToCompare} id="compare-select">
+              {compareList.map((food) => {
+                return (
+                  <MenuItem key={food.id} value={food.id}>
+                    {food.name} {food.description}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        )}
+
+        {overlap.length > 0 && (
+          <div id="overlap-container">
+            <p>Overlapping Ingredients:</p>
+            <p id="overlap-text">{overlap.join(', ')}</p>
           </div>
-        );
-      })}
+        )}
+      </Paper>
 
       <div>
-        <h3>Overlap</h3>
-        <p>{overlap && overlap.join(', ')}</p>
+        {foods.map((item) => {
+          return (
+            <Paper key={item.id} className="food-container">
+              <IconButton
+                onClick={() => deleteFromCompare(item.id)}
+                className="close-btn"
+              >
+                <Close />
+              </IconButton>
+              <h3>
+                {item.name} {item.description}
+              </h3>
+              <p>
+                <b>Ingredients: </b>
+                {item.ingredientlist.join(', ')}
+              </p>
+            </Paper>
+          );
+        })}
       </div>
     </Container>
   );

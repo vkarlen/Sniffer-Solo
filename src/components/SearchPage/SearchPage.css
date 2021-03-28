@@ -9,3 +9,12 @@
   text-align: center;
   height: 320px;
 }
+
+#query-select {
+  width: 120px;
+}
+
+#search-container {
+  padding: 15px 30px;
+  margin: 15px auto;
+}

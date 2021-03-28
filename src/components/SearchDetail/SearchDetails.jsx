@@ -2,7 +2,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
-import { DialogContent, DialogActions } from '@material-ui/core';
+import {
+  DialogContent,
+  DialogActions,
+  Select,
+  MenuItem,
+  Button,
+  Snackbar,
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 import './SearchDetails.css';
 
@@ -13,6 +21,7 @@ function SearchDetail({ food }) {
   const pets = useSelector((store) => store.user.userPets);
 
   const [pet, setPet] = useState('');
+  const [openAlert, setOpenAlert] = useState(false);
 
   const addToLog = (foodID, current) => {
     dispatch({
@@ -23,40 +32,85 @@ function SearchDetail({ food }) {
         current,
       },
     });
-    // Add success alert with option to go to pet page on click
-  };
+
+    setOpenAlert(true);
+  }; // end addToLog
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenAlert(false);
+  }; // end handleClose
+
+  const goToPet = () => {
+    history.push(`/pets/${pet}`);
+  }; // end goToPet
+
   return (
     <div id="detailContainer">
       <DialogContent>
-        <h3>
+        <h2>
           {food.name} {food.description}
-        </h3>
+        </h2>
         <img src={food.image} alt={food.description} id="detailImage" />
-        <p>Ingredients: {food.ingredientlist.join(', ')}</p>
+        <p>
+          <b>Ingredients:</b> {food.ingredientlist.join(', ')}
+        </p>
       </DialogContent>
 
       <DialogActions>
-        <select
+        <Select
           defaultValue="SELECT"
+          label="Select a Pet"
+          id="pet-select"
           onChange={(evt) => {
             setPet(evt.target.value);
           }}
         >
-          <option hidden>SELECT</option>
-
           {pets.map((pet) => {
             return (
-              <option key={pet.id} value={pet.id}>
+              <MenuItem key={pet.id} value={pet.id}>
                 {pet.name}
-              </option>
+              </MenuItem>
             );
           })}
-        </select>
+        </Select>
 
-        <button onClick={() => addToLog(food.id, true)}>Try Food</button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => addToLog(food.id, true)}
+        >
+          + Set Current
+        </Button>
 
-        <button onClick={() => addToLog(food.id, false)}>Add to Log</button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => addToLog(food.id, false)}
+        >
+          + Add to Log
+        </Button>
       </DialogActions>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+      >
+        <Alert severity="success" variant="filled">
+          Successfully added food
+          <Button color="secondary" size="small" onClick={goToPet}>
+            GO TO PET
+          </Button>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

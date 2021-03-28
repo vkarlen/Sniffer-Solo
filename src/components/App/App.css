@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
 html,
 body,
 #react-root {
   height: 100%;
+  background-color: #f0f0f0;
 }
 
 body,
@@ -110,4 +111,8 @@ Form Treatment
 input {
   margin: 5px;
   margin-bottom: 10px;
+}
+
+.page-title {
+  display: inline-block;
 }
