@@ -1,13 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Grid, Paper, Container, Button } from '@material-ui/core';
+import { Grid, Paper, Container, Button, Dialog } from '@material-ui/core';
 
 import './PetDetailPage.css';
 
 import FoodLog from '../FoodLog/FoodLog';
+import EditPet from '../EditPet/EditPet';
 
 function PetDetailPage() {
   const { id } = useParams();
@@ -16,6 +17,8 @@ function PetDetailPage() {
 
   const petInfo = useSelector((store) => store.pet.petDetail);
   const user = useSelector((store) => store.user.userInfo);
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     // Clear previous pet info
@@ -29,13 +32,21 @@ function PetDetailPage() {
     });
   }, []);
 
+  // Update info whenever there is a change to the pet
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_EXACT_PET',
+      payload: { id },
+    });
+  }, [petInfo]);
+
   const handleEdit = (petInfo) => {
     dispatch({
       type: 'SET_EDIT_PET',
       payload: petInfo,
     });
 
-    history.push('/edit');
+    setOpen(true);
   }; // end handleEdit
 
   const findFood = () => {
@@ -45,7 +56,16 @@ function PetDetailPage() {
     });
 
     history.push(`/search/`);
-  };
+  }; // end findFood
+
+  const handleOpen = (form) => {
+    setClickedForm(form);
+    setOpen(true);
+  }; // end handleOpen
+
+  const handleClose = () => {
+    setOpen(false);
+  }; // end handleClose
 
   return (
     <Container maxWidth="md">
@@ -109,6 +129,10 @@ function PetDetailPage() {
         {/* Wait until pet info has loaded in to load foodlog */}
         {petInfo.id && <FoodLog pet={petInfo} user={user} />}
       </div>
+
+      <Dialog open={open} onClose={handleClose}>
+        <EditPet handleClose={handleClose} />
+      </Dialog>
     </Container>
   );
 }

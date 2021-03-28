@@ -3,9 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import { Grid, Paper, Container, Button } from '@material-ui/core';
+import {
+  Grid,
+  TextField,
+  Select,
+  FormControl,
+  MenuItem,
+  FormHelperText,
+  Button,
+} from '@material-ui/core';
 
-function EditPet() {
+import './EditPet.css';
+
+function EditPet({ handleClose }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -58,7 +68,7 @@ function EditPet() {
       payload: pet,
     });
 
-    history.push(`/pets/${pet.id}`);
+    handleClose(false);
   }; // end handleSubmit
 
   const handleDelete = () => {
@@ -75,71 +85,103 @@ function EditPet() {
   };
 
   return (
-    <Container maxWidth="md">
-      <h2>Edit</h2>
-      <button onClick={handleDelete}>delete</button>
+    <div id="edit-container">
+      <h2 className="page-title">Edit</h2>
+      <Button
+        variant="text"
+        style={{ color: '#c53636' }}
+        size="small"
+        onClick={handleDelete}
+      >
+        x delete
+      </Button>
+      <div>
+        <FormControl color="primary">
+          <Grid container spacing={2}>
+            <Grid item xs={10}>
+              <TextField
+                label="Name"
+                fullWidth="true"
+                value={pet.name}
+                onChange={(evt) => handleChange(evt.target.value, 'name')}
+                required
+              />
+            </Grid>
 
-      <br />
-      <br />
+            <Grid item xs={12}>
+              <TextField
+                label="Picture"
+                fullWidth="true"
+                value={pet.image_url}
+                onChange={(evt) => handleChange(evt.target.value, 'image_url')}
+              />
+            </Grid>
 
-      <form>
-        <input
-          type="text"
-          placeholder="Pets Name"
-          value={pet.name}
-          onChange={(evt) => handleChange(evt.target.value, 'name')}
-          required
-        />
+            <Grid item xs={5}>
+              <TextField
+                label="Age in Years"
+                fullWidth="true"
+                value={pet.age}
+                onChange={(evt) => handleChange(evt.target.value, 'age')}
+              />
+            </Grid>
 
-        <input
-          type="text"
-          placeholder="Pets Picture"
-          value={pet.image_url}
-          onChange={(evt) => handleChange(evt.target.value, 'image_url')}
-        />
+            <Grid item xs={5}>
+              <TextField
+                label="Breed"
+                fullWidth="true"
+                value={pet.breed}
+                onChange={(evt) => handleChange(evt.target.value, 'breed')}
+              />
+            </Grid>
 
-        <input
-          type="text"
-          placeholder="Pets Age"
-          value={pet.age}
-          onChange={(evt) => handleChange(evt.target.value, 'age')}
-        />
+            <Grid item xs={8}>
+              <Select
+                fullWidth="true"
+                labelId="allergy-select"
+                onChange={(evt) => addAllergy(evt.target.value)}
+              >
+                {allergies.map((allergy) => {
+                  return (
+                    <MenuItem key={allergy.id} value={allergy.description}>
+                      {allergy.description}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
 
-        <input
-          type="text"
-          placeholder="Pets Breed"
-          value={pet.breed}
-          onChange={(evt) => handleChange(evt.target.value, 'breed')}
-        />
+              <FormHelperText>
+                Select all known food sensitivities
+              </FormHelperText>
+            </Grid>
 
-        <select
-          defaultValue="ADD"
-          onChange={(evt) => addAllergy(evt.target.value)}
-        >
-          <option hidden>ADD</option>
-          {allergies.map((allergy) => {
-            return (
-              <option key={allergy.id} value={allergy.description}>
-                {allergy.description}
-              </option>
-            );
-          })}
-        </select>
+            <Grid item xs={12}>
+              {/* Only renders if pet had allergies */}
+              {pet.allergies.map((allergy, index) => {
+                return (
+                  <span key={index}>
+                    <Button onClick={() => deleteAllergy(allergy)}>
+                      X {allergy}
+                    </Button>
+                  </span>
+                );
+              })}
+            </Grid>
 
-        {/* Only renders if pet had allergies */}
-        {pet.allergies.map((allergy, index) => {
-          return (
-            <span key={index}>
-              <button onClick={() => deleteAllergy(allergy)}>
-                {allergy} &nbsp; X
-              </button>
-            </span>
-          );
-        })}
-
-        <button onClick={handleSubmit}>Update</button>
-      </form>
-    </Container>
+            <Grid item>
+              <Button
+                variant="outlined"
+                color="primary"
+                id="update-btn"
+                onClick={handleSubmit}
+              >
+                Update
+              </Button>
+            </Grid>
+          </Grid>
+        </FormControl>
+      </div>
+    </div>
   );
 }
 
