@@ -1,7 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Dialog, Grid, Paper, Container } from '@material-ui/core';
+import {
+  Dialog,
+  Grid,
+  Paper,
+  Container,
+  Select,
+  MenuItem,
+  Button,
+  InputLabel,
+  FormHelperText,
+  FormControl,
+} from '@material-ui/core';
 
 import './SearchPage.css';
 
@@ -71,33 +82,47 @@ function SearchPage() {
 
   return (
     <Container maxWidth="md">
-      <h2 className="page-title">Search Tool</h2>
-      <div>
-        <select defaultValue="ADD" onChange={addToQuery}>
-          <option hidden>ADD</option>
-          {allergySelect.map((allergy) => {
+      <h2 className="page-title">Search</h2>
+      <p>Results will show all foods not containing the selected ingredients</p>
+
+      <Paper id="search-container">
+        <div>
+          <FormControl>
+            <FormHelperText id="allergy-label">
+              Select Ingredients
+            </FormHelperText>
+
+            <Select
+              labelId="allergy-label"
+              onChange={addToQuery}
+              id="query-select"
+            >
+              {allergySelect.map((allergy) => {
+                return (
+                  <MenuItem key={allergy.id} value={allergy.id}>
+                    {allergy.description}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </div>
+        <div>
+          {searchQuery.map((item) => {
             return (
-              <option key={allergy.id} value={allergy.id}>
-                {allergy.description}
-              </option>
+              <span key={item}>
+                <Button onClick={() => deleteFromQuery(item)}>
+                  X{' '}
+                  {
+                    allergySelect.find((allergy) => allergy.id === Number(item))
+                      .description
+                  }
+                </Button>
+              </span>
             );
           })}
-        </select>
-
-        {searchQuery.map((item) => {
-          return (
-            <span key={item}>
-              <button onClick={() => deleteFromQuery(item)}>
-                {
-                  allergySelect.find((allergy) => allergy.id === Number(item))
-                    .description
-                }
-                &nbsp; X
-              </button>
-            </span>
-          );
-        })}
-      </div>
+        </div>
+      </Paper>
 
       <Grid container spacing={2}>
         {searchResults !== 0 && (
