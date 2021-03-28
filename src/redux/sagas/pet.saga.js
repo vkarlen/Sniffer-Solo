@@ -42,6 +42,8 @@ function* addPet(action) {
 function* addToLog(action) {
   try {
     yield axios.post('/api/pet/log/add', action.payload);
+
+    action.payload.onComplete();
   } catch (error) {
     console.log('Error adding to log', error);
   }

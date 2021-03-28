@@ -87,27 +87,30 @@ function PetDetailPage() {
             </Button>
           )}
 
-          <Paper className="infoContainer">
-            {/* Info will only render if it has been entered for this pet */}
-            {petInfo.age && (
-              <p>
-                <span className="infoTitle">Age:</span> {petInfo.age} year(s)
-              </p>
-            )}
+          {/* Wont render Paper unless theres info to display */}
+          {(petInfo.age || petInfo.breed || petInfo.allergies[0]) && (
+            <Paper className="infoContainer">
+              {/* Info will only render if it has been entered for this pet */}
+              {petInfo.age && (
+                <p>
+                  <span className="infoTitle">Age:</span> {petInfo.age} year(s)
+                </p>
+              )}
 
-            {petInfo.breed && (
-              <p>
-                <span className="infoTitle">Breed:</span> {petInfo.breed}
-              </p>
-            )}
+              {petInfo.breed && (
+                <p>
+                  <span className="infoTitle">Breed:</span> {petInfo.breed}
+                </p>
+              )}
 
-            {petInfo.allergies[0] && (
-              <p>
-                <span className="infoTitle">Allergies:</span>&nbsp;
-                {petInfo.allergies.join(', ')}
-              </p>
-            )}
-          </Paper>
+              {petInfo.allergies[0] && (
+                <p>
+                  <span className="infoTitle">Allergies:</span>&nbsp;
+                  {petInfo.allergies.join(', ')}
+                </p>
+              )}
+            </Paper>
+          )}
 
           <Button
             variant="outlined"

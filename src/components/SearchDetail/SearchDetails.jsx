@@ -30,10 +30,11 @@ function SearchDetail({ food }) {
         pet,
         foodID,
         current,
+        onComplete: () => setOpenAlert(true),
       },
     });
 
-    setOpenAlert(true);
+    //setOpenAlert(true);
   }; // end addToLog
 
   const handleAlertClose = (event, reason) => {
