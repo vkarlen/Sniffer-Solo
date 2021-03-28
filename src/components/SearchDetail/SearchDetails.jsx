@@ -61,11 +61,7 @@ function SearchDetail({ food }) {
 
       <DialogContent dividers="true">
         <DialogContentText>
-          <img
-            src={food.image}
-            alt={(food.name, food.description)}
-            id="detail-image"
-          />
+          <img src={food.image} alt={food.description} id="detail-image" />
           <p>
             <b>Ingredients:</b> {food.ingredientlist.join(', ')}
           </p>

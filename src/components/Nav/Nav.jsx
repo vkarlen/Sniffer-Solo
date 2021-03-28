@@ -18,6 +18,7 @@ function Nav() {
           <Link to="/home">
             <img
               src="https://i.ibb.co/3NSGtJM/Sniffer-logowhite.png"
+              alt="Sniffer logo"
               id="logo"
             />
             <h1 className="nav-title">sniffer</h1>
