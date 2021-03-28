@@ -58,11 +58,6 @@ function PetDetailPage() {
     history.push(`/search/`);
   }; // end findFood
 
-  const handleOpen = (form) => {
-    setClickedForm(form);
-    setOpen(true);
-  }; // end handleOpen
-
   const handleClose = () => {
     setOpen(false);
   }; // end handleClose

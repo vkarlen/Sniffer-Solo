@@ -93,10 +93,6 @@ function App() {
               <AddPet />
             </ProtectedRoute>
 
-            <ProtectedRoute exact path="/edit">
-              <EditPet />
-            </ProtectedRoute>
-
             <ProtectedRoute path="/search" exact>
               <SearchPage />
             </ProtectedRoute>

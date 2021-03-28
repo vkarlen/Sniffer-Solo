@@ -1,7 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-import { Grid, Paper, Container, Button } from '@material-ui/core';
+import AddPet from '../AddPet/AddPet';
+
+import { Grid, Paper, Container, Button, Dialog } from '@material-ui/core';
 
 import './MyPetsPage.css';
 
@@ -10,6 +13,17 @@ function MyPetsPage() {
 
   const pets = useSelector((store) => store.user.userPets);
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (form) => {
+    setClickedForm(form);
+    setOpen(true);
+  }; // end handleOpen
+
+  const handleClose = () => {
+    setOpen(false);
+  }; // end handleClose
+
   return (
     <Container maxWidth="md">
       <h2 className="page-title">My Pets</h2>
@@ -17,7 +31,7 @@ function MyPetsPage() {
         variant="text"
         color="primary"
         size="small"
-        onClick={() => history.push('/addapet')}
+        onClick={() => setOpen(true)}
       >
         + add a pet
       </Button>
@@ -47,6 +61,10 @@ function MyPetsPage() {
           })}
         </Grid>
       )}
+
+      <Dialog open={open} onClose={handleClose}>
+        <AddPet handleClose={handleClose} />
+      </Dialog>
     </Container>
   );
 }

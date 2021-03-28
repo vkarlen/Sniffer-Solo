@@ -138,7 +138,6 @@ function EditPet({ handleClose }) {
             <Grid item xs={8}>
               <Select
                 fullWidth="true"
-                labelId="allergy-select"
                 onChange={(evt) => addAllergy(evt.target.value)}
               >
                 {allergies.map((allergy) => {
