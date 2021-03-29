@@ -15,6 +15,8 @@
 }
 
 #search-container {
+  position: sticky;
+  top: 5px;
   padding: 15px 30px;
   margin: 15px auto;
 }

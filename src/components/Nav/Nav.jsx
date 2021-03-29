@@ -48,12 +48,6 @@ function Nav() {
             </>
           )}
 
-          <>
-            <Link className="navLink" to="/about">
-              About
-            </Link>
-          </>
-
           {!user.id && (
             <Link className="navLink" to="/login">
               Login / Register
