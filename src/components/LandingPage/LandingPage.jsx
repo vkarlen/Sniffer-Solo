@@ -45,12 +45,10 @@ function LandingPage() {
 
         <div id="infoContainer">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget.
+            Sniffer is here to help! With tools that make managing your dog's
+            sensitivities a breeze, you can easily connect with foods that fit
+            their exact needs. So thats less time in the food aisle looking at
+            bags and more time spent with your little buddy.
           </p>
         </div>
 

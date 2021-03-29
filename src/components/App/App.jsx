@@ -16,12 +16,10 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import AboutPage from '../AboutPage/AboutPage';
 
 import MyPetsPage from '../MyPets/MyPetsPage/MyPetsPage';
 import PetDetailPage from '../MyPets/PetDetailPage/PetDetailPage';
 import AddPet from '../MyPets/AddPet/AddPet';
-import EditPet from '../MyPets/EditPet/EditPet';
 
 import SearchPage from '../SearchPage/SearchPage';
 import ComparisonTool from '../ComparisonTool/ComparisonTool';
@@ -75,10 +73,6 @@ function App() {
             <ProtectedRoute exact path="/registration" authRedirect="/home">
               <RegisterPage />
             </ProtectedRoute>
-
-            <Route exact path="/about">
-              <AboutPage />
-            </Route>
 
             {/*** PAGES ***/}
             <ProtectedRoute exact path="/pets">
