@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import { Grid, Container, Card, Button } from '@material-ui/core';
 
 function AdminPortal() {

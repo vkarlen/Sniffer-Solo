@@ -15,11 +15,6 @@ function MyPetsPage() {
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = (form) => {
-    setClickedForm(form);
-    setOpen(true);
-  }; // end handleOpen
-
   const handleClose = () => {
     setOpen(false);
   }; // end handleClose

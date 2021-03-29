@@ -35,8 +35,6 @@ function SearchDetail({ food }) {
         onComplete: () => setOpenAlert(true),
       },
     });
-
-    //setOpenAlert(true);
   }; // end addToLog
 
   const handleAlertClose = (event, reason) => {
@@ -45,7 +43,7 @@ function SearchDetail({ food }) {
     }
 
     setOpenAlert(false);
-  }; // end handleClose
+  }; // end handleAlertClose
 
   const goToPet = () => {
     history.push(`/pets/${pet}`);

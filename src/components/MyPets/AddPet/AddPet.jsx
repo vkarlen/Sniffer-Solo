@@ -8,7 +8,6 @@ import {
   Select,
   FormControl,
   MenuItem,
-  FormHelperText,
   Button,
 } from '@material-ui/core';
 
@@ -41,15 +40,11 @@ function AddPetPage({ handleClose }) {
         allergies: allergyList,
       };
 
-      console.log(newPet);
-
       Object.keys(newPet).forEach(function (key) {
         if (newPet[key] === '') {
           newPet[key] = null;
         }
       });
-
-      console.log(newPet);
 
       dispatch({
         type: 'ADD_PET',
@@ -66,7 +61,7 @@ function AddPetPage({ handleClose }) {
       // Close window
       handleClose(false);
     }
-  };
+  }; // end handleSubmit
 
   const addAllergy = (event) => {
     // Only adds allergy to list if it is not already in it

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button, Grid, Dialog } from '@material-ui/core';
 
 import './LandingPage.css';
 
-// CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
 
@@ -23,10 +22,6 @@ function LandingPage() {
       setOpen(false);
     }
   }, [user]);
-
-  const onLogin = (event) => {
-    history.push('/login');
-  }; // end onLogin
 
   const handleOpen = (form) => {
     setClickedForm(form);

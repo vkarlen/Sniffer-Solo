@@ -38,6 +38,7 @@ function FoodLog({ pet, user }) {
   }, []);
 
   const deleteLog = (logID) => {
+    // only allow update if the user owns this dog
     if (user.id === pet.owner_id) {
       dispatch({
         type: 'DELETE_LOG',
@@ -47,6 +48,7 @@ function FoodLog({ pet, user }) {
   }; // end deleteLog
 
   const markCurrent = (foodID) => {
+    // only allow update if the user owns this dog
     if (user.id === pet.owner_id) {
       dispatch({
         type: 'UPDATE_LOG_CURRENT',
@@ -56,13 +58,14 @@ function FoodLog({ pet, user }) {
   }; // end markCurrent
 
   const updateRating = (foodID) => {
+    // only allow update if the user owns this dog
     if (user.id === pet.owner_id) {
       dispatch({
         type: 'UPDATE_LOG_RATING',
         payload: { foodID: foodID, petID: pet.id },
       });
     }
-  };
+  }; // end updateRating
 
   return (
     <div>
