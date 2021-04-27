@@ -1,6 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@material-ui/core/';
+
 function AllergyTable() {
   const dispatch = useDispatch();
 
@@ -24,22 +34,22 @@ function AllergyTable() {
   }; // end handleChange
 
   return (
-    <div>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Ingredient</th>
-            <th>Allergy Type</th>
-          </tr>
-        </thead>
+    <TableContainer style={{ maxWidth: 400, margin: 'auto' }} component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Ingredient</TableCell>
+            <TableCell>Allergy Type</TableCell>
+          </TableRow>
+        </TableHead>
 
-        <tbody>
+        <TableBody>
           {ingredients.map((item) => {
             return (
-              <tr key={item.id}>
-                <td>{item.ingredient}</td>
+              <TableRow key={item.id}>
+                <TableCell>{item.ingredient}</TableCell>
 
-                <td>
+                <TableCell>
                   <select
                     defaultValue={item.all_id}
                     onChange={(evt) => handleChange(evt.target.value, item.id)}
@@ -52,13 +62,13 @@ function AllergyTable() {
                       );
                     })}
                   </select>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
