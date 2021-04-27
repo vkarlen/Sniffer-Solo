@@ -1,13 +1,15 @@
+import { TableCell, TableRow } from '@material-ui/core/';
+
 function FoodRow({ food }) {
   return (
-    <tr>
-      <td>
+    <TableRow>
+      <TableCell>
         <img src={food.image} className="adminImage" />
-      </td>
-      <td>{food.brand}</td>
-      <td>{food.description}</td>
-      <td>{food.ingredients.join(', ')}</td>
-    </tr>
+      </TableCell>
+      <TableCell>{food.brand}</TableCell>
+      <TableCell>{food.description}</TableCell>
+      <TableCell>{food.ingredients.join(', ')}</TableCell>
+    </TableRow>
   );
 }
 

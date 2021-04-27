@@ -3,6 +3,16 @@ import { useEffect } from 'react';
 
 import FoodRow from '../FoodRow/FoodRow';
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@material-ui/core/';
+
 function FoodTable() {
   const dispatch = useDispatch();
 
@@ -13,24 +23,24 @@ function FoodTable() {
   const foodList = useSelector((store) => store.admin.food);
 
   return (
-    <div>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th id="imgHeader">Image</th>
-            <th>Brand</th>
-            <th>Name</th>
-            <th>Ingredients</th>
-          </tr>
-        </thead>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell style={{ width: 120 }}>Image</TableCell>
+            <TableCell>Brand</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Ingredients</TableCell>
+          </TableRow>
+        </TableHead>
 
-        <tbody>
+        <TableBody>
           {foodList.map((food) => {
             return <FoodRow food={food} key={food.id} />;
           })}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
