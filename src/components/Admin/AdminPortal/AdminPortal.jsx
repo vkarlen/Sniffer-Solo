@@ -9,7 +9,7 @@ function AdminPortal() {
           <Grid item xs={6}>
             <Button
               variant="outlined"
-              href="http://localhost:3000/#/admin/food"
+              href="http://sniffer-solo.herokuapp.com/#/admin/food"
             >
               Manage All Food
             </Button>
@@ -18,7 +18,7 @@ function AdminPortal() {
           <Grid item xs={6}>
             <Button
               variant="outlined"
-              href="http://localhost:3000/#/admin/allergy"
+              href="http://sniffer-solo.herokuapp.com/#/admin/allergy"
             >
               Manage All Allergies
             </Button>
