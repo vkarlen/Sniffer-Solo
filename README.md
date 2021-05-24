@@ -4,7 +4,7 @@ _Duration: 2 Week Sprint_
 
 Sniffer designed to help the average pet parent manage their dog's food allergies and connect them with foods that fit their pooch's specific needs. In this app, you can create a profile for your dog where you can list known sensitivities, as well as track every food you've tried and how they did on it. Each profile features a "Sniff Out a New Food" button that brings the user to a search tailored specifically to their dog, showing only food that do not contain the ingredients they're sensitive to. Sniffer also has a comparison tool that allows the user to feed in two foods and instantly see any overlapping ingredients so they can more quickly zero in on what their pup is reacting to.
 
-To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](www.heroku.com)
+To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](sniffer-solo.herokuapp.com)
 
 ## Screen Shot
 
