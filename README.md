@@ -83,8 +83,6 @@ The admin has access to all of the user functionality as well as the ability to 
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-_Note, include this only if you have a license file. GitHub will generate one for you if you want!_
-
 ## Acknowledgement
 
 Thanks to the Cullen Cohort, my instructors, and specifically Zach, John, and Dusty for their support through this project and the Prime program.
