@@ -4,9 +4,14 @@ _Duration: 2 Week Sprint_
 
 Sniffer designed to help the average pet parent manage their dog's food allergies and connect them with foods that fit their pooch's specific needs. In this app, you can create a profile for your dog where you can list known sensitivities, as well as track every food you've tried and how they did on it. Each profile features a "Sniff Out a New Food" button that brings the user to a search tailored specifically to their dog, showing only food that do not contain the ingredients they're sensitive to. Sniffer also has a comparison tool that allows the user to feed in two foods and instantly see any overlapping ingredients so they can more quickly zero in on what their pup is reacting to.
 
-To see the fully functional site, please [CLICK HERE](https://sniffer-solo.herokuapp.com/#/home)
+To see the fully functional site, please [CLICK HERE](https://sniffer-solo.herokuapp.com/#/home) [^1]
 
 To see my scope document, including the database structure, wire frames, and stretch goals, please [CLICK HERE](https://docs.google.com/document/d/1MfT_YGyvV-wqLupuVIduDa7uiQT5kG6XzuGrqrRO8hY/edit?usp=sharing)
+
+Demo login: 
+> Username: Barbra
+>
+> Password: password
 
 ## Table of Contents
 
@@ -87,3 +92,5 @@ Thanks to the Cullen Cohort, my instructors, and specifically Zach, John, and Du
 ## Support
 
 If you have suggestions or issues, please email me at [vada.karlen@gmail.com](vada.karlen@gmail.com)
+
+[^1]: If at any point while using the deployed app things seem to freeze up or not render, refresh the page. Heroku will sometimes time out the database and it needs to be re spun up. 
